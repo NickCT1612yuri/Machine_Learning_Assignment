@@ -1,0 +1,34 @@
+dataset,method,n_negation,n_other,acc_negation,acc_other,gap
+Rotten Tomatoes,BoW + MultinomialNB,254,812,0.814961,0.786946,0.028015
+Rotten Tomatoes,BoW + LogReg,254,812,0.759843,0.784483,-0.02464
+Rotten Tomatoes,BoW + LinearSVC,254,812,0.724409,0.79064,-0.066231
+Rotten Tomatoes,BoW + XGBoost,254,812,0.740157,0.725369,0.014788
+Rotten Tomatoes,TF-IDF + MultinomialNB,254,812,0.799213,0.799261,-4.8e-05
+Rotten Tomatoes,TF-IDF + LogReg,254,812,0.771654,0.788177,-0.016524
+Rotten Tomatoes,TF-IDF + LinearSVC,254,812,0.76378,0.794335,-0.030555
+Rotten Tomatoes,TF-IDF + XGBoost,254,812,0.732283,0.714286,0.017998
+Rotten Tomatoes,TF-IDF (SVD-30) + LogReg,254,812,0.633858,0.621921,0.011937
+Rotten Tomatoes,Word2Vec + GaussianNB,254,812,0.586614,0.624384,-0.03777
+Rotten Tomatoes,Word2Vec + LogReg,254,812,0.692913,0.711823,-0.018909
+Rotten Tomatoes,Word2Vec + LinearSVC,254,812,0.669291,0.692118,-0.022827
+Rotten Tomatoes,Word2Vec + XGBoost,254,812,0.700787,0.687192,0.013595
+Rotten Tomatoes,Word2Vec (PCA-30) + LogReg,254,812,0.629921,0.688424,-0.058502
+Rotten Tomatoes,DistilBERT + GaussianNB,254,812,0.716535,0.742611,-0.026075
+Rotten Tomatoes,DistilBERT + LogReg,254,812,0.724409,0.796798,-0.072389
+Rotten Tomatoes,DistilBERT + LinearSVC,254,812,0.751969,0.805419,-0.05345
+Rotten Tomatoes,DistilBERT + XGBoost,254,812,0.767717,0.789409,-0.021692
+Rotten Tomatoes,DistilBERT (PCA-30) + LogReg,254,812,0.740157,0.780788,-0.040631
+Rotten Tomatoes,BGE-small + GaussianNB,254,812,0.791339,0.825123,-0.033785
+Rotten Tomatoes,BGE-small + LogReg,254,812,0.795276,0.833744,-0.038468
+Rotten Tomatoes,BGE-small + LinearSVC,254,812,0.799213,0.841133,-0.04192
+Rotten Tomatoes,BGE-small + XGBoost,254,812,0.811024,0.846059,-0.035035
+Rotten Tomatoes,BGE-small (PCA-30) + LogReg,254,812,0.811024,0.830049,-0.019026
+Rotten Tomatoes,BiLSTM (word2vec),254,812,0.732283,0.758621,-0.026337
+Rotten Tomatoes,TextCNN (word2vec),254,812,0.73622,0.775862,-0.039642
+Rotten Tomatoes,"SetFit (16-shot, word2vec)",254,812,0.57874,0.524631,0.05411
+Rotten Tomatoes,BiLSTM (distilbert),254,812,0.775591,0.799261,-0.023671
+Rotten Tomatoes,TextCNN (distilbert),254,812,0.799213,0.809113,-0.009901
+Rotten Tomatoes,"SetFit (16-shot, distilbert)",254,812,0.669291,0.637931,0.03136
+Rotten Tomatoes,BiLSTM (bge_small),254,812,0.795276,0.83867,-0.043394
+Rotten Tomatoes,TextCNN (bge_small),254,812,0.80315,0.844828,-0.041678
+Rotten Tomatoes,"SetFit (16-shot, bge_small)",254,812,0.759843,0.834975,-0.075133

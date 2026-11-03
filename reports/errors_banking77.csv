@@ -1,0 +1,11 @@
+dataset,model,true,predicted,count,share_of_true_class,example_1,example_2
+Banking77,BGE-small + LinearSVC,pending_transfer,transfer_not_received_by_recipient,5,0.128,why is my transfer not done yet?,why hasn't my transfer gone through yet?
+Banking77,BGE-small + LinearSVC,pending_transfer,transfer_timing,5,0.128,how long can an eu transfer take?,how long do transfer pend for?
+Banking77,BGE-small + LinearSVC,pending_top_up,top_up_failed,4,0.1,i topped up but it didn't complete,"your top-up function isn't working, it still says pending even though i know my card works."
+Banking77,BGE-small + LinearSVC,wrong_amount_of_cash_received,declined_cash_withdrawal,4,0.1,"i don't know if this is an issue with the atm or my account, but i just tried withdrawing 30 pounds from the atm i'm at now and it only gave me 10. is this a glitch or what exactly is going on?",why did i not get my cash back after i withdrew?
+Banking77,BGE-small + LinearSVC,top_up_reverted,top_up_failed,4,0.1,the app wouldn't accept my top up.,"i believe my money did not go through with my top up, was there a problem on your end?"
+Banking77,BGE-small + LinearSVC,pending_transfer,balance_not_updated_after_bank_transfer,4,0.103,how long for money transfer to show?,"i transferred money yesterday, but it still isn't available?"
+Banking77,BGE-small + LinearSVC,beneficiary_not_allowed,failed_transfer,4,0.1,i've tried numerous times to submit a transfer of funds. why isn't it going through?,i tried to transfer money but it said it wasn't possible? i've done this before and it worked why isn't it working now?
+Banking77,BGE-small + LinearSVC,fiat_currency_support,exchange_via_app,3,0.075,how do i change currencies to euros?,am i able to exchange currencies?
+Banking77,BGE-small + LinearSVC,top_up_by_bank_transfer_charge,transfer_fee_charged,3,0.075,will a transfer incur a fee?,can you tell me what the transfer policy is?
+Banking77,BGE-small + LinearSVC,declined_transfer,beneficiary_not_allowed,3,0.075,how do i contact customer support about a transfer?,why was i unable to do a transfer?

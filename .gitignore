@@ -1,0 +1,22 @@
+# Local environments and caches
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
+.quick/
+.full_run.log
+.mplconfig/
+.cache/
+
+# Pandoc intermediates
+reports/ML_Assignment_Report.tex
+reports/*.aux
+reports/*.log
+reports/*.out
+reports/*.toc
+
+# Extracted embeddings are large (~2GB+); regenerate with main.py / Colab
+# Keep the folder in the tree via features/README.md
+features/*/
+!features/README.md

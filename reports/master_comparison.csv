@@ -1,0 +1,100 @@
+dataset,method,family,embedding,classifier,input,input_dim,preprocess,accuracy,precision,recall,f1,brier_score,ece,extract_time_sec,train_time_sec,infer_time_sec,notes
+AG News,BoW + MultinomialNB,Traditional (sparse lexical),BoW,naive_bayes,sparse,25000,sw0_tok1_pad1_neg0,0.887,0.886475,0.887,0.886539,0.209944,0.10114,0.997,0.0039,0.001062,
+AG News,BoW + LogReg,Traditional (sparse lexical),BoW,logreg,sparse,25000,sw0_tok1_pad1_neg0,0.8755,0.875098,0.8755,0.875237,0.192804,0.03853,0.997,1.391416,0.001135,
+AG News,BoW + LinearSVC,Traditional (sparse lexical),BoW,svm,sparse,25000,sw0_tok1_pad1_neg0,0.877,0.876434,0.877,0.876636,0.203529,0.077541,0.997,2.179891,0.006162,
+AG News,BoW + XGBoost,Traditional (sparse lexical),BoW,xgboost,sparse,25000,sw0_tok1_pad1_neg0,0.8535,0.852922,0.8535,0.852745,0.237877,0.099281,0.997,218.073144,0.0,
+AG News,TF-IDF + MultinomialNB,Traditional (sparse lexical),TF-IDF,naive_bayes,sparse,25000,sw0_tok1_pad1_neg0,0.885,0.884458,0.885,0.884531,0.179323,0.048892,0.991,0.006541,0.001647,
+AG News,TF-IDF + LogReg,Traditional (sparse lexical),TF-IDF,logreg,sparse,25000,sw0_tok1_pad1_neg0,0.889,0.888887,0.889,0.888658,0.198864,0.114596,0.991,0.648353,0.00115,
+AG News,TF-IDF + LinearSVC,Traditional (sparse lexical),TF-IDF,svm,sparse,25000,sw0_tok1_pad1_neg0,0.8895,0.889058,0.8895,0.889172,0.173224,0.04911,0.991,0.29989,0.003554,
+AG News,TF-IDF + XGBoost,Traditional (sparse lexical),TF-IDF,xgboost,sparse,25000,sw0_tok1_pad1_neg0,0.8545,0.853904,0.8545,0.853741,0.240392,0.102258,0.991,263.08046,0.0,
+AG News,TF-IDF (SVD-30) + LogReg,Traditional (sparse lexical),TF-IDF,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.8335,0.833075,0.8335,0.833257,0.251579,0.036149,0.991,0.029749,0.000775,
+AG News,Word2Vec + GaussianNB,Static word embeddings,Word2Vec,naive_bayes,dense,300,sw0_tok1_pad1_neg0,0.833,0.832318,0.833,0.831902,0.326369,0.161985,587.719,0.009071,0.003583,
+AG News,Word2Vec + LogReg,Static word embeddings,Word2Vec,logreg,dense,300,sw0_tok1_pad1_neg0,0.858,0.857712,0.858,0.857805,0.212982,0.033025,587.719,0.468001,0.001345,
+AG News,Word2Vec + LinearSVC,Static word embeddings,Word2Vec,svm,dense,300,sw0_tok1_pad1_neg0,0.867,0.86646,0.867,0.866415,0.198074,0.039894,587.719,2.071376,0.004537,
+AG News,Word2Vec + XGBoost,Static word embeddings,Word2Vec,xgboost,dense,300,sw0_tok1_pad1_neg0,0.867,0.866621,0.867,0.866663,0.205345,0.061975,587.719,38.225177,0.0,
+AG News,Word2Vec (PCA-30) + LogReg,Static word embeddings,Word2Vec,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.856,0.855379,0.856,0.855579,0.210204,0.032488,587.719,0.02304,0.000588,
+AG News,DistilBERT + GaussianNB,Modern (frozen Transformer),DistilBERT,naive_bayes,dense,768,sw0_tok1_pad1_neg0,0.863,0.863521,0.863,0.863133,0.270041,0.134313,32.76,0.023,0.006243,
+AG News,DistilBERT + LogReg,Modern (frozen Transformer),DistilBERT,logreg,dense,768,sw0_tok1_pad1_neg0,0.8615,0.8621,0.8615,0.861731,0.2247,0.094004,32.76,1.159009,0.002707,
+AG News,DistilBERT + LinearSVC,Modern (frozen Transformer),DistilBERT,svm,dense,768,sw0_tok1_pad1_neg0,0.9025,0.902639,0.9025,0.90244,0.157101,0.022406,32.76,4.935068,0.007813,
+AG News,DistilBERT + XGBoost,Modern (frozen Transformer),DistilBERT,xgboost,dense,768,sw0_tok1_pad1_neg0,0.8945,0.894703,0.8945,0.894457,0.164352,0.045358,32.76,94.152714,0.0,
+AG News,DistilBERT (PCA-30) + LogReg,Modern (frozen Transformer),DistilBERT,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.8875,0.887386,0.8875,0.887409,0.178842,0.026394,32.76,0.030258,0.000625,
+AG News,BGE-small + GaussianNB,Modern (frozen Transformer),BGE-small,naive_bayes,dense,384,sw0_tok1_pad1_neg0,0.884,0.883759,0.884,0.883841,0.218608,0.107447,22.611,0.015246,0.004379,
+AG News,BGE-small + LogReg,Modern (frozen Transformer),BGE-small,logreg,dense,384,sw0_tok1_pad1_neg0,0.8725,0.872097,0.8725,0.872266,0.192332,0.050752,22.611,0.225503,0.001376,
+AG News,BGE-small + LinearSVC,Modern (frozen Transformer),BGE-small,svm,dense,384,sw0_tok1_pad1_neg0,0.8955,0.89512,0.8955,0.895238,0.163692,0.024284,22.611,2.247957,0.005317,
+AG News,BGE-small + XGBoost,Modern (frozen Transformer),BGE-small,xgboost,dense,384,sw0_tok1_pad1_neg0,0.902,0.902239,0.902,0.901935,0.163698,0.039285,22.611,53.333299,0.0,
+AG News,BGE-small (PCA-30) + LogReg,Modern (frozen Transformer),BGE-small,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.89,0.890409,0.89,0.889994,0.175347,0.028478,22.611,0.025174,0.00073,
+AG News,BiLSTM (word2vec),Deep learning (end-to-end),Word2Vec,bilstm,word2vec,53,sw0_tok1_pad1_neg0,0.8765,0.877749,0.8765,0.87689,0.187073,0.028103,0.0,91.150108,1.088924,"bilstm x word2vec, 5 epochs"
+AG News,TextCNN (word2vec),Deep learning (end-to-end),Word2Vec,textcnn,word2vec,53,sw0_tok1_pad1_neg0,0.875,0.875309,0.875,0.875013,0.182187,0.030276,0.0,18.265779,0.234529,"textcnn x word2vec, 5 epochs"
+AG News,"SetFit (16-shot, word2vec)",Deep learning (end-to-end),Word2Vec,setfit,64 labelled texts,300,sw0_tok1_pad1_neg0,0.8105,0.812483,0.8105,0.807872,0.401657,0.27852,0.0,8.838518,0.000635,"setfit x word2vec, 16 shots/class"
+AG News,BiLSTM (distilbert),Deep learning (end-to-end),DistilBERT,bilstm,distilbert,55,sw0_tok1_pad1_neg0,0.904,0.904405,0.904,0.903929,0.152545,0.028717,0.0,114.729243,1.564555,"bilstm x distilbert, 7 epochs"
+AG News,TextCNN (distilbert),Deep learning (end-to-end),DistilBERT,textcnn,distilbert,55,sw0_tok1_pad1_neg0,0.9,0.900583,0.9,0.900075,0.154013,0.035453,0.0,29.42978,0.618399,"textcnn x distilbert, 7 epochs"
+AG News,"SetFit (16-shot, distilbert)",Deep learning (end-to-end),DistilBERT,setfit,64 labelled texts,768,sw0_tok1_pad1_neg0,0.8485,0.856058,0.8485,0.846857,0.251612,0.104289,0.0,52.312053,4.539458,"setfit x distilbert, 16 shots/class"
+AG News,BiLSTM (bge_small),Deep learning (end-to-end),BGE-small,bilstm,bge_small,55,sw0_tok1_pad1_neg0,0.8985,0.89879,0.8985,0.898186,0.163053,0.035741,0.0,77.358065,1.100079,"bilstm x bge_small, 5 epochs"
+AG News,TextCNN (bge_small),Deep learning (end-to-end),BGE-small,textcnn,bge_small,55,sw0_tok1_pad1_neg0,0.898,0.898014,0.898,0.897738,0.160339,0.025275,0.0,15.538498,0.275221,"textcnn x bge_small, 5 epochs"
+AG News,"SetFit (16-shot, bge_small)",Deep learning (end-to-end),BGE-small,setfit,64 labelled texts,384,sw0_tok1_pad1_neg0,0.8775,0.878357,0.8775,0.87668,0.238733,0.185155,0.0,41.463745,2.596377,"setfit x bge_small, 16 shots/class"
+Rotten Tomatoes,BoW + MultinomialNB,Traditional (sparse lexical),BoW,naive_bayes,sparse,24083,sw0_tok1_pad1_neg0,0.793621,0.793886,0.793621,0.793575,0.331802,0.126806,0.459,0.002775,0.00058,
+Rotten Tomatoes,BoW + LogReg,Traditional (sparse lexical),BoW,logreg,sparse,24083,sw0_tok1_pad1_neg0,0.778612,0.77893,0.778612,0.778548,0.311019,0.051847,0.459,0.187621,0.000472,
+Rotten Tomatoes,BoW + LinearSVC,Traditional (sparse lexical),BoW,svm,sparse,24083,sw0_tok1_pad1_neg0,0.774859,0.775049,0.774859,0.77482,0.313799,0.065,0.459,0.138155,0.001492,
+Rotten Tomatoes,BoW + XGBoost,Traditional (sparse lexical),BoW,xgboost,sparse,24083,sw0_tok1_pad1_neg0,0.728893,0.728933,0.728893,0.728881,0.376103,0.089071,0.459,99.522237,0.0,
+Rotten Tomatoes,TF-IDF + MultinomialNB,Traditional (sparse lexical),TF-IDF,naive_bayes,sparse,24083,sw0_tok1_pad1_neg0,0.79925,0.799963,0.79925,0.79913,0.29695,0.097078,0.457,0.004228,0.000711,
+Rotten Tomatoes,TF-IDF + LogReg,Traditional (sparse lexical),TF-IDF,logreg,sparse,24083,sw0_tok1_pad1_neg0,0.78424,0.78434,0.78424,0.784221,0.312149,0.099326,0.457,0.039397,0.001436,
+Rotten Tomatoes,TF-IDF + LinearSVC,Traditional (sparse lexical),TF-IDF,svm,sparse,24083,sw0_tok1_pad1_neg0,0.787054,0.787282,0.787054,0.787012,0.288341,0.042827,0.457,0.073229,0.001389,
+Rotten Tomatoes,TF-IDF + XGBoost,Traditional (sparse lexical),TF-IDF,xgboost,sparse,24083,sw0_tok1_pad1_neg0,0.718574,0.718574,0.718574,0.718574,0.378733,0.069608,0.457,103.895866,0.0,
+Rotten Tomatoes,TF-IDF (SVD-30) + LogReg,Traditional (sparse lexical),TF-IDF,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.624765,0.626158,0.624765,0.623727,0.446591,0.021248,0.457,0.012008,0.000547,
+Rotten Tomatoes,Word2Vec + GaussianNB,Static word embeddings,Word2Vec,naive_bayes,dense,300,sw0_tok1_pad1_neg0,0.615385,0.615974,0.615385,0.614895,0.707058,0.341507,175.015,0.01056,0.00178,
+Rotten Tomatoes,Word2Vec + LogReg,Static word embeddings,Word2Vec,logreg,dense,300,sw0_tok1_pad1_neg0,0.707317,0.707364,0.707317,0.707301,0.37921,0.027457,175.015,0.173872,0.000768,
+Rotten Tomatoes,Word2Vec + LinearSVC,Static word embeddings,Word2Vec,svm,dense,300,sw0_tok1_pad1_neg0,0.686679,0.68669,0.686679,0.686675,0.402094,0.016301,175.015,0.828694,0.002718,
+Rotten Tomatoes,Word2Vec + XGBoost,Static word embeddings,Word2Vec,xgboost,dense,300,sw0_tok1_pad1_neg0,0.690432,0.690499,0.690432,0.690404,0.399595,0.042244,175.015,23.402631,0.0,
+Rotten Tomatoes,Word2Vec (PCA-30) + LogReg,Static word embeddings,Word2Vec,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.674484,0.67481,0.674484,0.674332,0.425986,0.029037,175.015,0.006158,0.000432,
+Rotten Tomatoes,DistilBERT + GaussianNB,Modern (frozen Transformer),DistilBERT,naive_bayes,dense,768,sw0_tok1_pad1_neg0,0.736398,0.738582,0.736398,0.735793,0.500065,0.247933,16.32,0.017665,0.002092,
+Rotten Tomatoes,DistilBERT + LogReg,Modern (frozen Transformer),DistilBERT,logreg,dense,768,sw0_tok1_pad1_neg0,0.77955,0.779629,0.77955,0.779534,0.297954,0.0507,16.32,0.256799,0.001229,
+Rotten Tomatoes,DistilBERT + LinearSVC,Modern (frozen Transformer),DistilBERT,svm,dense,768,sw0_tok1_pad1_neg0,0.792683,0.792981,0.792683,0.79263,0.282886,0.021325,16.32,1.968381,0.003785,
+Rotten Tomatoes,DistilBERT + XGBoost,Modern (frozen Transformer),DistilBERT,xgboost,dense,768,sw0_tok1_pad1_neg0,0.78424,0.785268,0.78424,0.784046,0.297705,0.046557,16.32,55.870005,0.0,
+Rotten Tomatoes,DistilBERT (PCA-30) + LogReg,Modern (frozen Transformer),DistilBERT,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.771107,0.771294,0.771107,0.771067,0.318866,0.027954,16.32,0.007912,0.000477,
+Rotten Tomatoes,BGE-small + GaussianNB,Modern (frozen Transformer),BGE-small,naive_bayes,dense,384,sw0_tok1_pad1_neg0,0.817073,0.817324,0.817073,0.817037,0.342732,0.169873,13.411,0.01306,0.001869,
+Rotten Tomatoes,BGE-small + LogReg,Modern (frozen Transformer),BGE-small,logreg,dense,384,sw0_tok1_pad1_neg0,0.824578,0.824588,0.824578,0.824576,0.253692,0.051629,13.411,0.060689,0.001005,
+Rotten Tomatoes,BGE-small + LinearSVC,Modern (frozen Transformer),BGE-small,svm,dense,384,sw0_tok1_pad1_neg0,0.831144,0.831186,0.831144,0.831139,0.244684,0.036363,13.411,0.785204,0.002381,
+Rotten Tomatoes,BGE-small + XGBoost,Modern (frozen Transformer),BGE-small,xgboost,dense,384,sw0_tok1_pad1_neg0,0.837711,0.837912,0.837711,0.837687,0.257186,0.070189,13.411,27.815409,0.0,
+Rotten Tomatoes,BGE-small (PCA-30) + LogReg,Modern (frozen Transformer),BGE-small,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.825516,0.825681,0.825516,0.825494,0.255335,0.031279,13.411,0.007828,0.000377,
+Rotten Tomatoes,BiLSTM (word2vec),Deep learning (end-to-end),Word2Vec,bilstm,word2vec,38,sw0_tok1_pad1_neg0,0.752345,0.753502,0.752345,0.752062,0.32372,0.076249,0.0,54.610387,0.376571,"bilstm x word2vec, 5 epochs"
+Rotten Tomatoes,TextCNN (word2vec),Deep learning (end-to-end),Word2Vec,textcnn,word2vec,38,sw0_tok1_pad1_neg0,0.766417,0.767102,0.766417,0.766267,0.312193,0.023993,0.0,9.803497,0.067684,"textcnn x word2vec, 4 epochs"
+Rotten Tomatoes,"SetFit (16-shot, word2vec)",Deep learning (end-to-end),Word2Vec,setfit,32 labelled texts,300,sw0_tok1_pad1_neg0,0.537523,0.548216,0.537523,0.510378,0.514203,0.094889,0.0,2.694165,0.000268,"setfit x word2vec, 16 shots/class"
+Rotten Tomatoes,BiLSTM (distilbert),Deep learning (end-to-end),DistilBERT,bilstm,distilbert,40,sw0_tok1_pad1_neg0,0.793621,0.793724,0.793621,0.793603,0.276482,0.048484,0.0,48.614224,0.462389,"bilstm x distilbert, 5 epochs"
+Rotten Tomatoes,TextCNN (distilbert),Deep learning (end-to-end),DistilBERT,textcnn,distilbert,40,sw0_tok1_pad1_neg0,0.806754,0.80691,0.806754,0.80673,0.255331,0.030761,0.0,14.655691,0.395267,"textcnn x distilbert, 5 epochs"
+Rotten Tomatoes,"SetFit (16-shot, distilbert)",Deep learning (end-to-end),DistilBERT,setfit,32 labelled texts,768,sw0_tok1_pad1_neg0,0.645403,0.645608,0.645403,0.645279,0.564608,0.250616,0.0,19.310892,1.309672,"setfit x distilbert, 16 shots/class"
+Rotten Tomatoes,BiLSTM (bge_small),Deep learning (end-to-end),BGE-small,bilstm,bge_small,40,sw0_tok1_pad1_neg0,0.82833,0.82847,0.82833,0.828312,0.252697,0.042917,0.0,37.175391,0.421652,"bilstm x bge_small, 4 epochs"
+Rotten Tomatoes,TextCNN (bge_small),Deep learning (end-to-end),BGE-small,textcnn,bge_small,40,sw0_tok1_pad1_neg0,0.834897,0.834916,0.834897,0.834894,0.24882,0.046743,0.0,13.382035,0.108408,"textcnn x bge_small, 6 epochs"
+Rotten Tomatoes,"SetFit (16-shot, bge_small)",Deep learning (end-to-end),BGE-small,setfit,32 labelled texts,384,sw0_tok1_pad1_neg0,0.817073,0.817074,0.817073,0.817073,0.266788,0.054436,0.0,16.223376,0.960215,"setfit x bge_small, 16 shots/class"
+Banking77,BoW + MultinomialNB,Traditional (sparse lexical),BoW,naive_bayes,sparse,10290,sw0_tok1_pad1_neg0,0.839402,0.854948,0.839261,0.836709,0.252748,0.085607,0.236,0.022235,0.010378,
+Banking77,BoW + LogReg,Traditional (sparse lexical),BoW,logreg,sparse,10290,sw0_tok1_pad1_neg0,0.884915,0.889475,0.884882,0.884999,0.17496,0.065819,0.236,2.059255,0.002761,
+Banking77,BoW + LinearSVC,Traditional (sparse lexical),BoW,svm,sparse,10290,sw0_tok1_pad1_neg0,0.880689,0.885186,0.880619,0.880881,0.199324,0.14504,0.236,1.600761,0.021816,
+Banking77,BoW + XGBoost,Traditional (sparse lexical),BoW,xgboost,sparse,10290,sw0_tok1_pad1_neg0,0.868336,0.87295,0.86824,0.868428,0.191674,0.010236,0.236,2283.64936,0.0,
+Banking77,TF-IDF + MultinomialNB,Traditional (sparse lexical),TF-IDF,naive_bayes,sparse,10290,sw0_tok1_pad1_neg0,0.823472,0.848267,0.823368,0.815444,0.440468,0.385952,0.234,0.019318,0.005757,
+Banking77,TF-IDF + LogReg,Traditional (sparse lexical),TF-IDF,logreg,sparse,10290,sw0_tok1_pad1_neg0,0.886216,0.891771,0.886139,0.886495,0.315462,0.329068,0.234,2.058404,0.002489,
+Banking77,TF-IDF + LinearSVC,Traditional (sparse lexical),TF-IDF,svm,sparse,10290,sw0_tok1_pad1_neg0,0.891743,0.89665,0.891658,0.891829,0.180983,0.127193,0.234,1.25871,0.023157,
+Banking77,TF-IDF + XGBoost,Traditional (sparse lexical),TF-IDF,xgboost,sparse,10290,sw0_tok1_pad1_neg0,0.837126,0.843825,0.837055,0.837424,0.22998,0.018359,0.234,2170.994022,0.0,
+Banking77,TF-IDF (SVD-30) + LogReg,Traditional (sparse lexical),TF-IDF,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.691482,0.696299,0.691359,0.690593,0.434651,0.042328,0.234,0.58234,0.002504,
+Banking77,Word2Vec + GaussianNB,Static word embeddings,Word2Vec,naive_bayes,dense,300,sw0_tok1_pad1_neg0,0.631664,0.653532,0.631527,0.630967,0.704376,0.345541,79.503,0.012687,0.063814,
+Banking77,Word2Vec + LogReg,Static word embeddings,Word2Vec,logreg,dense,300,sw0_tok1_pad1_neg0,0.784135,0.790966,0.784116,0.784314,0.331204,0.098623,79.503,1.461347,0.003861,
+Banking77,Word2Vec + LinearSVC,Static word embeddings,Word2Vec,svm,dense,300,sw0_tok1_pad1_neg0,0.746099,0.757549,0.746004,0.744315,0.440263,0.250448,79.503,20.363126,0.023257,
+Banking77,Word2Vec + XGBoost,Static word embeddings,Word2Vec,xgboost,dense,300,sw0_tok1_pad1_neg0,0.75065,0.758766,0.750475,0.748262,0.352521,0.036553,79.503,245.202513,0.0,
+Banking77,Word2Vec (PCA-30) + LogReg,Static word embeddings,Word2Vec,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.712289,0.71795,0.712213,0.712619,0.40665,0.017635,79.503,0.386269,0.002203,
+Banking77,DistilBERT + GaussianNB,Modern (frozen Transformer),DistilBERT,naive_bayes,dense,768,sw0_tok1_pad1_neg0,0.706112,0.726179,0.706019,0.706906,0.574142,0.284216,14.989,0.018323,0.153416,
+Banking77,DistilBERT + LogReg,Modern (frozen Transformer),DistilBERT,logreg,dense,768,sw0_tok1_pad1_neg0,0.873212,0.876047,0.873144,0.872881,0.205423,0.0721,14.989,0.653222,0.004531,
+Banking77,DistilBERT + LinearSVC,Modern (frozen Transformer),DistilBERT,svm,dense,768,sw0_tok1_pad1_neg0,0.859883,0.86446,0.859815,0.859686,0.239906,0.156759,14.989,50.303924,0.025294,
+Banking77,DistilBERT + XGBoost,Modern (frozen Transformer),DistilBERT,xgboost,dense,768,sw0_tok1_pad1_neg0,0.807217,0.814208,0.80716,0.806748,0.272199,0.033263,14.989,633.908453,0.0,
+Banking77,DistilBERT (PCA-30) + LogReg,Modern (frozen Transformer),DistilBERT,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.730169,0.735349,0.730145,0.729632,0.37604,0.019161,14.989,0.513256,0.003004,
+Banking77,BGE-small + GaussianNB,Modern (frozen Transformer),BGE-small,naive_bayes,dense,384,sw0_tok1_pad1_neg0,0.897594,0.904968,0.897519,0.897887,0.202722,0.101128,11.62,0.019344,0.08217,
+Banking77,BGE-small + LogReg,Modern (frozen Transformer),BGE-small,logreg,dense,384,sw0_tok1_pad1_neg0,0.923277,0.925827,0.923193,0.923372,0.121735,0.035643,11.62,0.643866,0.003297,
+Banking77,BGE-small + LinearSVC,Modern (frozen Transformer),BGE-small,svm,dense,384,sw0_tok1_pad1_neg0,0.923927,0.927435,0.923834,0.923806,0.130345,0.095316,11.62,21.804069,0.022859,
+Banking77,BGE-small + XGBoost,Modern (frozen Transformer),BGE-small,xgboost,dense,384,sw0_tok1_pad1_neg0,0.907672,0.911289,0.907584,0.907343,0.139233,0.018924,11.62,242.874246,0.0,
+Banking77,BGE-small (PCA-30) + LogReg,Modern (frozen Transformer),BGE-small,logreg,30-d projection,30,sw0_tok1_pad1_neg0,0.895644,0.898673,0.895588,0.895104,0.155778,0.015156,11.62,0.387208,0.002457,
+Banking77,BiLSTM (word2vec),Deep learning (end-to-end),Word2Vec,bilstm,word2vec,29,sw0_tok1_pad1_neg0,0.837776,0.849599,0.837704,0.835444,0.238366,0.015992,0.0,55.201222,0.627884,"bilstm x word2vec, 7 epochs"
+Banking77,TextCNN (word2vec),Deep learning (end-to-end),Word2Vec,textcnn,word2vec,29,sw0_tok1_pad1_neg0,0.874837,0.882584,0.874792,0.874601,0.188512,0.038436,0.0,16.153269,0.262104,"textcnn x word2vec, 7 epochs"
+Banking77,"SetFit (8-shot, word2vec)",Deep learning (end-to-end),Word2Vec,setfit,616 labelled texts,300,sw0_tok1_pad1_neg0,0.481144,0.48508,0.481086,0.474739,0.791208,0.295814,0.0,9.646655,0.002277,"setfit x word2vec, 8 shots/class"
+Banking77,BiLSTM (distilbert),Deep learning (end-to-end),DistilBERT,bilstm,distilbert,31,sw0_tok1_pad1_neg0,0.876788,0.884341,0.876748,0.87622,0.186106,0.014907,0.0,62.656638,1.243245,"bilstm x distilbert, 7 epochs"
+Banking77,TextCNN (distilbert),Deep learning (end-to-end),DistilBERT,textcnn,distilbert,31,sw0_tok1_pad1_neg0,0.887841,0.89567,0.887804,0.88807,0.166368,0.030604,0.0,21.129821,0.542859,"textcnn x distilbert, 7 epochs"
+Banking77,"SetFit (8-shot, distilbert)",Deep learning (end-to-end),DistilBERT,setfit,616 labelled texts,768,sw0_tok1_pad1_neg0,0.728218,0.743186,0.728039,0.727544,0.380928,0.026331,0.0,80.975346,2.244137,"setfit x distilbert, 8 shots/class"
+Banking77,BiLSTM (bge_small),Deep learning (end-to-end),BGE-small,bilstm,bge_small,31,sw0_tok1_pad1_neg0,0.903446,0.910339,0.903388,0.903763,0.145302,0.012982,0.0,61.946613,0.871021,"bilstm x bge_small, 7 epochs"
+Banking77,TextCNN (bge_small),Deep learning (end-to-end),BGE-small,textcnn,bge_small,31,sw0_tok1_pad1_neg0,0.918075,0.924216,0.918024,0.918375,0.11958,0.009526,0.0,22.860426,0.741252,"textcnn x bge_small, 7 epochs"
+Banking77,"SetFit (8-shot, bge_small)",Deep learning (end-to-end),BGE-small,setfit,616 labelled texts,384,sw0_tok1_pad1_neg0,0.81567,0.829997,0.815559,0.807662,0.756187,0.660655,0.0,78.194482,1.774148,"setfit x bge_small, 8 shots/class"
