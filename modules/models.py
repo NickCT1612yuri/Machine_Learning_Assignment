@@ -20,6 +20,8 @@ def seed_everything(seed: int = SEED):
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True  # identical TextCNN results on reruns with the same GPU
+    torch.backends.cudnn.benchmark = False
 
 
 def make_classifier(name: str, param: float, scale: bool = False):

@@ -88,7 +88,16 @@ for d in DATASETS:
 * `reports/results/<dataset>/` — `eda.png|json`, `validation.csv` (all tested configurations), `test_results.csv`,
   `paired_bootstrap.csv`, `per_class_f1.csv`, `top_confusions.csv`, `negation.csv`, `predictions.csv`, `textcnn_history.csv`, `run.json`.
 
-Files in a Colab runtime are temporary; download them before disconnecting.
+Files in a Colab runtime are temporary; the next cell downloads the results as a zip.
+"""),
+    cell("code", """
+import shutil
+archive = shutil.make_archive("results", "zip", OUT / "reports", "results")
+try:
+    from google.colab import files
+    files.download(archive)
+except ImportError:
+    print("Saved", archive)
 """),
 ]
 

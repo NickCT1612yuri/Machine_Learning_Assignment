@@ -16,7 +16,7 @@ QUICK_CAPS = (1_500, 600)  # train/test caps for the --quick smoke test
 
 # Traditional pipeline: every preprocessing combination x every classifier setting.
 TFIDF_GRID = dict(tokenizer=("regex", "whitespace"), stop_words=(False, True), max_ngram=(1, 2))
-TFIDF_PARAMS = dict(min_df=2, max_features=25_000, sublinear_tf=True)
+TFIDF_PARAMS = dict(min_df=2, sublinear_tf=True)  # no max_features cap: a cap breaks frequency ties arbitrarily
 CLASSIFIER_GRID = {
     "nb": (0.01, 0.03, 0.1, 0.3, 1, 3),  # Multinomial Naive Bayes smoothing alpha
     "logreg": (1, 4, 16, 64),      # inverse regularisation strength C
