@@ -1,0 +1,19 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Most frequent Banking77 test confusions of the best model (BGE-small).}\label{tab:confusions}
+\begin{tabular}{@{}llr@{}}
+\toprule
+True intent & Predicted intent & Count \\
+\midrule
+\texttt{top\_up\_reverted} & \texttt{top\_up\_failed} & 6 \\
+\texttt{top\_up\_by\_bank\_transfer\_charge} & \texttt{transfer\_fee\_charged} & 5 \\
+\texttt{failed\_transfer} & \texttt{beneficiary\_not\_allowed} & 4 \\
+\texttt{pending\_transfer} & \texttt{transfer\_timing} & 4 \\
+\texttt{declined\_transfer} & \texttt{declined\_card\_payment} & 4 \\
+\texttt{balance\_not\_updated\_after\_bank\_transfer} & \texttt{transfer\_timing} & 4 \\
+\texttt{transfer\_not\_received\_by\_recipient} & \texttt{balance\_not\_updated\_after\_bank\_transfer} & 3 \\
+\texttt{wrong\_amount\_of\_cash\_received} & \texttt{declined\_cash\_withdrawal} & 3 \\
+\bottomrule
+\end{tabular}
+\end{table}

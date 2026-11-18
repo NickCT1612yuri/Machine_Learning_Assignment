@@ -1,23 +1,12 @@
 # Extracted features
 
-This directory holds Banking77 embedding caches written by the pipeline:
+Written by `python main.py` (or the Colab notebook); not tracked by git because of their size.
 
 ```
-features/banking77/<embedding>_<preprocess_tag>/
-  X_train.npy | X_train_sparse.npz
-  X_test.npy  | X_test_sparse.npz
-  X_train_pca30.npy, X_test_pca30.npy
-  y_train.npy, y_test.npy
-  features.h5, meta.json
-  word2vec.kv.npz   # Word2Vec only
+features/<corpus>/
+  tfidf.h5                 selected TF-IDF configuration; groups fit/val/test with CSR data, indices, indptr, shape, y
+  bge_fit.npy, bge_val.npy, bge_test.npy    frozen BGE-small embeddings (N x 384, float32)
+  y_fit.npy, y_val.npy, y_test.npy          label ids
 ```
 
-Default embeddings: `tfidf`, `word2vec`, `distilbert`. Binary caches are **not** committed to GitHub. Regenerate:
-
-```bash
-python main.py
-```
-
-or **Runtime → Run all** in `notebooks/text_classification_colab.ipynb`.
-
-For the course zip, attach a packed `features/` archive if the instructor requires the `.npy` / `.h5` files on disk.
+Corpora: `ag_news`, `rotten_tomatoes`, `banking77`. Attach this folder (or a download link) to the submission zip.

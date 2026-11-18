@@ -1,0 +1,39 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Answers to the research questions}
+\begin{description}
+  \item[Q1 -- lexical vs.\ pretrained features.] The gap is corpus-dependent, as expected from the EDA (E1, E3). Where the label follows topical vocabulary (AG News), TF-IDF is within about 1\,pp of BGE and the difference is not conclusive. Where it depends on composition (sentiment) or paraphrase (intent), frozen sentence embeddings are 3.5--5.6\,pp better. BGE's pretraining on large paired-text corpora supplies knowledge that ${\approx}$8{,}500 labelled texts cannot: that \textit{my top-up didn't go through} and \textit{top up failed} mean the same thing.
+  \item[Q2 -- preprocessing for TF-IDF.] Preprocessing must match the task (E2). Stop-word removal costs 2.9--4.3\,pp on sentiment and intent because the standard list removes negations and question words. Bigrams are the most reliable improvement. The best classifier also changes: Naive Bayes for few, lexically distinct classes; logistic regression for many overlapping classes.
+  \item[Q3 -- end-to-end learning from scratch.] At this data scale TextCNN does not beat either feature-based pipeline (E4). It is competitive only on Banking77, whose small, repetitive vocabulary suits learned local filters. Without pretraining it has to learn word meaning and the task from the same few thousand sentences, which is hardest for sentiment.
+  \item[Q4 -- beyond macro-F1.] Calibration separates models with similar F1: TF-IDF on Banking77 is accurate but under-confident (ECE 0.132), while BGE is both accurate and calibrated. The negation split shows that all models lose accuracy on negated intent queries, and that BGE's sentiment advantage persists on negated reviews.
+\end{description}
+
+\subsection{Strengths and limitations of each pipeline}
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Practical comparison (timings for one corpus on a laptop: Apple M-series, BGE on MPS, rest on CPU).}
+\label{tab:tradeoffs}
+\begin{tabular}{@{}P{2.3cm}P{5.6cm}P{5.6cm}@{}}
+\toprule
+Pipeline & Strengths & Limitations \\
+\midrule
+TF-IDF + NB / LogReg / SVM & Fast (112 configurations in 3--80\,s); no pretrained model or GPU; interpretable weights per word; competitive on topical text & Ignores word order beyond bigrams and synonymy; sensitive to stop-word and tokenizer choices; under-confident probabilities \\
+\addlinespace
+Frozen BGE-small + LogReg & Best macro-F1 and calibration on all corpora; small head trains in seconds; embeddings reusable for other tasks & Needs a 33M-parameter model and its download; features are opaque; not adapted to the task (no fine-tuning); 384-d vectors are larger to store than sparse TF-IDF rows \\
+\addlinespace
+TextCNN (bonus) & Learns task-specific patterns end to end; no external resources; well calibrated on Banking77 & Lowest scores on two corpora; needs early stopping; slowest on CPU (1.5--3\,min); results vary with the random seed \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Threats to validity}
+\begin{itemize}
+  \item \textbf{One split, one seed.} Bootstrap intervals capture test-sample variation but not variation from re-splitting or re-initialising TextCNN; the TextCNN results in particular may move by a point or more with another seed.
+  \item \textbf{Finite search.} Grids were widened until the selected values lay inside them, but other settings (e.g.\ character $n$-grams, larger TextCNN, BGE without standardisation) were not explored.
+  \item \textbf{Frozen encoder.} Fine-tuning BGE or a larger Transformer would very likely raise the modern pipeline further; the comparison measures pretrained \emph{features}, not the best achievable Transformer.
+  \item \textbf{Possible pretraining overlap.} The three corpora are public and may be part of BGE's training data, which could favour it.
+  \item \textbf{Sub-sampled AG News.} 10{,}000 of 120{,}000 training texts were used; with the full set the ranking may change, since models trained from scratch usually gain most from additional data.
+  \item \textbf{Heuristic negation detector.} A cue list misses implicit negation (\textit{fails to}, \textit{hardly}) and flags non-negating uses.
+\end{itemize}

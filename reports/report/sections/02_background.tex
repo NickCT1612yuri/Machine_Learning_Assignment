@@ -1,0 +1,35 @@
+\section{Background}
+\label{sec:background}
+
+\subsection{TF-IDF representation}
+A document $d$ becomes a sparse vector over a vocabulary of unigrams (optionally bigrams) learned from the fit split. With sub-linear term frequency and smoothed inverse document frequency,
+\[
+w_{t,d} = \bigl(1 + \ln \mathrm{tf}_{t,d}\bigr)\cdot\Bigl(\ln\frac{1+n}{1+\mathrm{df}_t} + 1\Bigr),
+\]
+followed by $\ell_2$ normalisation of each row \cite{salton1988}, where $n$ is the number of fit documents and $\mathrm{df}_t$ the number containing term $t$. Frequent, uninformative terms are down-weighted; word order is lost except inside $n$-grams.
+
+\subsection{Classical classifiers}
+\begin{itemize}
+  \item \textbf{Multinomial Naive Bayes (NB)} assumes features are conditionally independent given the class: $P(y\mid d)\propto P(y)\prod_t P(t\mid y)^{x_{t,d}}$, with Laplace/Lidstone smoothing $P(t\mid y)=\frac{N_{y,t}+\alpha}{N_y+\alpha|V|}$. It trains in a single pass and is strong when data are scarce.
+  \item \textbf{Logistic regression (LogReg)} models $P(y\mid \mathbf{x})=\mathrm{softmax}(W\mathbf{x}+\mathbf{b})$ and minimises cross-entropy plus an $\ell_2$ penalty $\tfrac{1}{2C}\lVert W\rVert^2$; it outputs probabilities.
+  \item \textbf{Linear SVM} (one-vs-rest) maximises the margin with a squared hinge loss and the same $C$ trade-off. It returns scores, not probabilities.
+\end{itemize}
+
+\subsection{Frozen sentence embeddings: BGE-small}
+BGE-small (\nolinkurl{BAAI/bge-small-en-v1.5}) \cite{xiao2023} is a 12-layer BERT-style Transformer (33M parameters, 384-dimensional output) trained with contrastive objectives so that semantically similar sentences have nearby embeddings. We use it as a \emph{fixed} feature extractor: the final-layer \texttt{[CLS]} vector, $\ell_2$-normalised, represents the text, and only a logistic-regression head is trained. This isolates the value of pretrained representations from the cost of fine-tuning.
+
+\subsection{TextCNN}
+TextCNN \cite{kim2014} maps token ids to trainable embeddings $E\in\mathbb{R}^{L\times 100}$, applies 64 convolution filters for each window width $h\in\{3,4,5\}$, takes the maximum of each filter over time, and feeds the concatenated 192-dimensional vector through dropout to a softmax layer:
+\[
+c_{j} = \max_{i}\,\mathrm{ReLU}\bigl(\mathbf{w}_j^{\top}E_{i:i+h-1}+b_j\bigr),\qquad \hat{\mathbf{p}}=\mathrm{softmax}\bigl(W\,\mathrm{dropout}(\mathbf{c})\bigr).
+\]
+All weights, including embeddings, are learned from scratch with cross-entropy, so the model sees only the labelled training data. Each filter acts as a learned, soft $n$-gram detector.
+
+\subsection{Evaluation metrics}
+\label{sec:metrics}
+For each class $k$, $\mathrm{P}_k=\frac{TP_k}{TP_k+FP_k}$, $\mathrm{R}_k=\frac{TP_k}{TP_k+FN_k}$ and $\mathrm{F1}_k=\frac{2\mathrm{P}_k\mathrm{R}_k}{\mathrm{P}_k+\mathrm{R}_k}$. Macro scores average over classes with equal weight, so small classes count as much as large ones; macro-F1 is the selection criterion throughout. Two metrics assess the quality of predicted probabilities $\hat{\mathbf{p}}_i$:
+\[
+\mathrm{Brier}=\frac{1}{N}\sum_{i=1}^{N}\sum_{k=1}^{K}\bigl(\hat p_{ik}-\mathbb{1}[y_i=k]\bigr)^2,\qquad
+\mathrm{ECE}=\sum_{b=1}^{15}\frac{|B_b|}{N}\,\bigl|\mathrm{acc}(B_b)-\mathrm{conf}(B_b)\bigr|,
+\]
+where $B_b$ groups test texts by top-class confidence into 15 equal-width bins. Brier combines accuracy and calibration \cite{brier1950}; ECE measures only the mismatch between confidence and accuracy \cite{guo2017}.

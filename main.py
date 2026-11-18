@@ -1,24 +1,31 @@
-"""Run the assignment pipeline; full and quick outputs are isolated."""
+"""Command-line entry point: python main.py [--datasets ...] [--quick]."""
 import argparse
 from pathlib import Path
-from modules.assignment_pipeline import REGISTRY, run_dataset
+
+import pandas as pd
+
+from modules import DATASETS, FAMILIES, run_dataset
+from modules.config import ROOT
+
 
 def main():
- p=argparse.ArgumentParser(description='Text classification assignment')
- p.add_argument('--dataset',choices=['all',*REGISTRY],default='all')
- p.add_argument('--quick',action='store_true',help='small subsets for smoke testing only')
- p.add_argument('--padding',choices=['dynamic','fixed'],default='dynamic')
- p.add_argument('--tokenization',choices=['regex','whitespace'],default='regex',help='TF-IDF tokenization; Transformer uses its pretrained tokenizer')
- p.add_argument('--classifiers',nargs='+',choices=['nb','logreg','svm'],default=['nb','logreg','svm'])
- p.add_argument('--embeddings',nargs='+',choices=['tfidf','bge'],default=['tfidf','bge'],help='Use both for assignment submission')
- p.add_argument('--batch-size',type=int,default=32)
- p.add_argument('--epochs',type=int,default=7)
- p.add_argument('--output',type=Path,default=None)
- a=p.parse_args()
- if a.batch_size<1 or a.epochs<1: p.error('batch size and epochs must be positive')
- root=a.output or Path(__file__).resolve().parent/'outputs'/('quick' if a.quick else 'full')
- names=list(REGISTRY) if a.dataset=='all' else [a.dataset]
- for n in names: run_dataset(n,root,a.quick,a.epochs,a.batch_size,a.padding,a.tokenization,a.classifiers,a.embeddings)
- print(f'Finished; results and feature files: {root.resolve()}')
+    p = argparse.ArgumentParser(description="TF-IDF vs BGE-small vs TextCNN text classification")
+    p.add_argument("--datasets", nargs="+", choices=list(DATASETS), default=list(DATASETS))
+    p.add_argument("--families", nargs="+", choices=FAMILIES, default=list(FAMILIES))
+    p.add_argument("--classifiers", nargs="+", choices=["nb", "logreg", "svm"], default=["nb", "logreg", "svm"])
+    p.add_argument("--padding", choices=["dynamic", "fixed"], default="dynamic", help="BGE batch padding")
+    p.add_argument("--batch-size", type=int, default=32)
+    p.add_argument("--quick", action="store_true", help="small subsets, 2 epochs; writes to .smoke/")
+    p.add_argument("--out", type=Path, help="output root (default: repository, or .smoke/ with --quick)")
+    a = p.parse_args()
 
-if __name__=='__main__': main()
+    out = a.out or (ROOT / ".smoke" if a.quick else ROOT)
+    tables = [run_dataset(n, out, a.quick, a.families, a.classifiers, a.padding, a.batch_size).assign(dataset=n)
+              for n in a.datasets]
+    summary = pd.concat(tables)
+    summary.to_csv(out / "reports" / "results" / "summary.csv", index=False)
+    print(f"\nDone. Results: {out / 'reports' / 'results'}  Features: {out / 'features'}")
+
+
+if __name__ == "__main__":
+    main()

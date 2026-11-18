@@ -1,0 +1,23 @@
+\section{Introduction}
+\label{sec:intro}
+
+Task~2 of the assignment asks for a complete traditional machine-learning pipeline for text (EDA, preprocessing, feature extraction, training, evaluation), at least one modern deep-learning representation whose features are stored as \texttt{.npy} or \texttt{.h5}, a pipeline whose preprocessing, embedding and classifier are configurable, and a comparison of traditional and modern approaches. An additional end-to-end deep-learning pipeline earns a bonus.
+
+\paragraph{Corpora.} A single corpus can make one method look universally better. We therefore use three public corpora that differ in the kind of signal that determines the label:
+\begin{itemize}
+  \item \textbf{AG News} \cite{zhang2015}: four news topics; labels follow topical vocabulary.
+  \item \textbf{Rotten Tomatoes} \cite{pang2005}: binary sentiment of one-sentence reviews; labels depend on composition, negation and irony.
+  \item \textbf{Banking77} \cite{casanueva2020}: 77 fine-grained intents of short customer queries that share most of their vocabulary.
+\end{itemize}
+
+\paragraph{Compared approaches.} (i)~TF-IDF with Naive Bayes, logistic regression or a linear SVM; (ii)~frozen BGE-small sentence embeddings with logistic regression; (iii)~a TextCNN trained end-to-end (bonus). All three use identical splits, selection rule and metrics.
+
+\paragraph{Questions.}
+\begin{enumerate}\renewcommand{\labelenumi}{\textbf{Q\arabic{enumi}.}}
+  \item How large is the gap between lexical features and pretrained embeddings, and does it depend on the corpus?
+  \item Which preprocessing choices (tokenizer, stop-word removal, $n$-grams) and classifiers matter for TF-IDF?
+  \item Can a small network trained from scratch match either feature-based pipeline at this data scale?
+  \item Do calibration and the negation split change the picture given by macro-F1?
+\end{enumerate}
+
+\paragraph{Contributions.} One configurable, tested pipeline (\texttt{modules/}) used by both the command line and the Colab notebook; 112 TF-IDF, 7 BGE and one early-stopped TextCNN configuration per corpus, all selected on validation data; test results with bootstrap confidence intervals, calibration, negation and error analyses.

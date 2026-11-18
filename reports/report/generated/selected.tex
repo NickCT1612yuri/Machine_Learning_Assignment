@@ -1,0 +1,14 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Configurations selected by validation macro-F1.}\label{tab:selected}
+\begin{tabular}{@{}lP{7.4cm}ll@{}}
+\toprule
+Corpus & TF-IDF (best of 112) & BGE (best of 7) & TextCNN \\
+\midrule
+AG News & regex, stop words removed, 1--2-grams, NB ($\alpha$=0.1) & C=0.003 & epoch 8, vocab 14,277 \\
+Rotten Tomatoes & whitespace, stop words kept, 1--2-grams, NB ($\alpha$=1) & C=0.003 & epoch 13, vocab 8,068 \\
+Banking77 & regex, stop words kept, 1--2-grams, LogReg (C=16) & C=0.3 & epoch 12, vocab 1,388 \\
+\bottomrule
+\end{tabular}
+\end{table}

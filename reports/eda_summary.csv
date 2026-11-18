@@ -1,2 +1,0 @@
-dataset,n_train,n_test,n_classes,min_class_count,max_class_count,balance_ratio,words_mean,words_std,words_min,words_median,words_p95,words_p99,words_max,test_words_mean,vocab_with_stopwords,vocab_without_stopwords,stopword_token_share,operator_token_share,docs_with_negation
-Banking77,9993,3076,77,35,187,0.187,11.96,7.89,3,10.0,29.4,43.0,79,10.96,2353,2128,0.607,0.0663,0.255

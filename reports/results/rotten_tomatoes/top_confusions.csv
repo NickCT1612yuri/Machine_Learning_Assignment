@@ -1,0 +1,7 @@
+true,predicted,count,family
+pos,neg,145,TF-IDF
+neg,pos,94,TF-IDF
+pos,neg,93,BGE-small
+neg,pos,87,BGE-small
+neg,pos,143,TextCNN
+pos,neg,133,TextCNN

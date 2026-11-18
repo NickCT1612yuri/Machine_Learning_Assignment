@@ -1,0 +1,145 @@
+{
+  "n_fit": 8500,
+  "n_val": 1500,
+  "n_test": 2000,
+  "classes": 4,
+  "min_class": 2125,
+  "max_class": 2125,
+  "length_mean": 38.18176470588235,
+  "length_median": 38.0,
+  "length_p95": 54.0,
+  "length_max": 142,
+  "vocabulary": 23901,
+  "hapax_share": 0.4026609765281787,
+  "negation_share": 0.13741176470588234,
+  "top_words": [
+    [
+      "the",
+      14570
+    ],
+    [
+      "to",
+      8496
+    ],
+    [
+      "a",
+      7689
+    ],
+    [
+      "of",
+      7124
+    ],
+    [
+      "in",
+      6863
+    ],
+    [
+      "and",
+      4950
+    ],
+    [
+      "on",
+      3921
+    ],
+    [
+      "for",
+      3623
+    ],
+    [
+      "that",
+      2035
+    ],
+    [
+      "with",
+      1975
+    ],
+    [
+      "at",
+      1877
+    ],
+    [
+      "as",
+      1843
+    ],
+    [
+      "its",
+      1594
+    ],
+    [
+      "is",
+      1564
+    ],
+    [
+      "new",
+      1556
+    ]
+  ],
+  "top_content_words": [
+    [
+      "new",
+      1556
+    ],
+    [
+      "said",
+      1469
+    ],
+    [
+      "ap",
+      1215
+    ],
+    [
+      "reuters",
+      1140
+    ],
+    [
+      "year",
+      655
+    ],
+    [
+      "s",
+      637
+    ],
+    [
+      "u",
+      585
+    ],
+    [
+      "1",
+      572
+    ],
+    [
+      "wednesday",
+      560
+    ],
+    [
+      "monday",
+      548
+    ],
+    [
+      "2",
+      530
+    ],
+    [
+      "oil",
+      521
+    ],
+    [
+      "tuesday",
+      517
+    ],
+    [
+      "thursday",
+      506
+    ],
+    [
+      "friday",
+      473
+    ]
+  ],
+  "train_missing_or_blank": 0,
+  "train_duplicates": 156,
+  "test_missing_or_blank": 0,
+  "test_duplicates": 0,
+  "removed_from_fit": 0,
+  "removed_from_val": 0
+}

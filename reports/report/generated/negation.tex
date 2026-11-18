@@ -1,20 +1,20 @@
 \begin{table}[H]
 \centering
-\caption{Negation vs.\ other accuracy on test.}
 \small
+\caption{Test accuracy on texts with and without a negation cue (\%).}\label{tab:negation}
 \begin{tabular}{@{}llrrrr@{}}
 \toprule
-Corpus & Family & Acc$_{\mathrm{neg}}$ & $n_{\mathrm{neg}}$ & Acc$_{\mathrm{other}}$ & Gap \\
+Corpus & Family & $n$ neg./other & Acc neg. & Acc other & Gap (pp) \\
 \midrule
-AG News & TF-IDF & 88.79 & 223 & 89.70 & -0.0091 \\
-AG News & BGE-small & 86.10 & 223 & 87.96 & -0.0186 \\
-AG News & TextCNN & 85.20 & 223 & 85.76 & -0.0056 \\
-Rotten Tomatoes & TF-IDF & 77.95 & 254 & 79.31 & -0.0136 \\
-Rotten Tomatoes & BGE-small & 79.53 & 254 & 83.74 & -0.0422 \\
-Rotten Tomatoes & TextCNN & 66.93 & 254 & 71.92 & -0.0499 \\
-Banking77 & TF-IDF & 86.27 & 692 & 88.88 & -0.0261 \\
-Banking77 & BGE-small & 90.61 & 692 & 93.37 & -0.0277 \\
-Banking77 & TextCNN & 82.37 & 692 & 85.82 & -0.0345 \\
+AG News & TF-IDF & 249 / 1751 & 87.55 & 88.35 & -0.80 \\
+ & BGE-small & 249 / 1751 & 89.56 & 89.21 & +0.35 \\
+ & TextCNN & 249 / 1751 & 83.53 & 84.64 & -1.10 \\
+Rotten Tomatoes & TF-IDF & 254 / 812 & 76.77 & 77.83 & -1.06 \\
+ & BGE-small & 254 / 812 & 79.13 & 84.36 & -5.23 \\
+ & TextCNN & 254 / 812 & 72.83 & 74.51 & -1.67 \\
+Banking77 & TF-IDF & 692 / 2384 & 86.99 & 90.10 & -3.11 \\
+ & BGE-small & 692 / 2384 & 90.75 & 93.50 & -2.75 \\
+ & TextCNN & 692 / 2384 & 85.69 & 89.01 & -3.32 \\
 \bottomrule
 \end{tabular}
 \end{table}

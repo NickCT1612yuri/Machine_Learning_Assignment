@@ -1,0 +1,13 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We built one configurable pipeline covering EDA, cleaning, leakage-free splitting, feature extraction with stored features, model selection on validation data and a single test evaluation, and applied it to three corpora with different label structure.
+
+\begin{enumerate}
+  \item Frozen BGE-small embeddings with logistic regression give the best macro-F1 on all three corpora (89.2, 83.1, 92.9) and the best calibration.
+  \item TF-IDF remains a strong, cheap baseline: within 1\,pp of BGE on topical news, but 3.5--5.6\,pp behind when meaning depends on composition or paraphrase.
+  \item TF-IDF preprocessing is task-dependent: stop-word removal helps news topics and hurts sentiment and intent; bigrams help everywhere.
+  \item The bonus TextCNN, trained from scratch, does not outperform either feature-based pipeline at this scale; it is competitive only on the small-vocabulary Banking77 corpus.
+\end{enumerate}
+
+Natural extensions are fine-tuning the Transformer, repeating the experiment over several seeds and splits, and combining TF-IDF and BGE features, whose per-class errors differ.

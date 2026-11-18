@@ -1,0 +1,63 @@
+\section{Data and exploratory analysis}
+\label{sec:data}
+
+\subsection{Corpora}
+All corpora are downloaded inside the notebook from public Hugging Face identifiers (Table~\ref{tab:corpora}). The three label structures differ by design: topic, polarity and intent.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Corpora. AG News is stratified-sampled from 120{,}000 training and 7{,}600 test texts; the others use the official splits.}
+\label{tab:corpora}
+\begin{tabular}{@{}llrP{4.6cm}@{}}
+\toprule
+Corpus & Hugging Face identifier & Classes & Label meaning \\
+\midrule
+AG News & {\scriptsize\texttt{fancyzhx/ag\_news}} & 4 & World, Sports, Business, Sci/Tech \\
+Rotten Tomatoes & {\scriptsize\texttt{cornell-movie-review-data/rotten\_tomatoes}} & 2 & negative / positive review \\
+Banking77 & {\scriptsize\texttt{mteb/banking77}} & 77 & customer-service intent \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Data quality and cleaning}
+No corpus contains missing or empty texts. AG News stores HTML entities without the leading ampersand (\texttt{Google \#39;s}, \texttt{quot;}, \texttt{\&lt;b\&gt;}) and marks line breaks with a backslash; before cleaning, the entity number \texttt{39} was among the ten most frequent tokens. The cleaning step restores these characters, removes markup and normalises whitespace for all corpora. The AG News training split contains 156 exact duplicates; Banking77 has 7 development texts that also occur in the test split, which are removed from fit and validation (Table~\ref{tab:eda}).
+
+\input{generated/eda}
+
+\subsection{Observations}
+Figures~\ref{fig:eda-ag}--\ref{fig:eda-b77} show, for each fit split, the sorted class sizes, the length distribution and the most frequent words after stop-word removal.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{ag_news/eda.png}
+\caption{AG News (fit split). Balanced classes; news-agency and date words dominate the content vocabulary.}
+\label{fig:eda-ag}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{rotten_tomatoes/eda.png}
+\caption{Rotten Tomatoes (fit split). Balanced polarity; frequent content words (\textit{film, movie, like, good}) are not tied to one polarity.}
+\label{fig:eda-rt}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{banking77/eda.png}
+\caption{Banking77 (fit split). Class sizes vary five-fold (30--159); a few domain words (\textit{card, account, money, transfer}) are shared by many intents.}
+\label{fig:eda-b77}
+\end{figure}
+
+\begin{itemize}
+  \item \textbf{Length.} Texts are short: a mean of 38, 19 and 12 words, with 95th percentiles of 54, 34 and 29 words. A token budget of 96/64 therefore truncates almost nothing, and the sequence models see nearly every word.
+  \item \textbf{Balance.} AG News and Rotten Tomatoes are perfectly balanced, so accuracy and macro-F1 almost coincide. Banking77 is moderately imbalanced in training (ratio 5.3) but balanced in test (about 40 texts per intent); macro-F1 is the appropriate summary.
+  \item \textbf{Vocabulary.} AG News has the richest vocabulary (23{,}901 types) and topic-specific nouns (\textit{oil}, team names, companies). Banking77 has only 2{,}243 types: intents are distinguished less by \emph{which} words occur than by \emph{how} they combine (\textit{card arrival} vs.\ \textit{card delivery estimate}; \textit{top up failed} vs.\ \textit{top up reverted}).
+  \item \textbf{Function words carry meaning.} Negation cues occur in 13.7\%, 23.4\% and 25.9\% of the texts. In Banking77 the most frequent words are \textit{i, my, to, can, do}; in Rotten Tomatoes polarity often hinges on \textit{not, but, too}. The standard English stop-word list removes all of these (it contains \textit{not, no, never, nor, cannot, how, why, what}).
+\end{itemize}
+
+\paragraph{Expectations derived from the EDA.}
+\textbf{E1:} on AG News, topical nouns should make TF-IDF competitive with pretrained embeddings.
+\textbf{E2:} on Rotten Tomatoes and Banking77, stop-word removal should hurt TF-IDF, and bigrams should help.
+\textbf{E3:} pretrained sentence embeddings should help most where labels depend on composition or paraphrase (Rotten Tomatoes, Banking77).
+\textbf{E4:} a model trained from scratch on ${\approx}$8{,}500 texts (about 110 per class in Banking77, 3{,}600 in Rotten Tomatoes) should trail both feature-based pipelines.

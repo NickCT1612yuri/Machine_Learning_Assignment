@@ -1,0 +1,52 @@
+\section{Results}
+\label{sec:results}
+
+All numbers come from one full run (\texttt{python main.py}); tables are generated from \texttt{reports/results/}. Because all test sets are class-balanced (500, 533 and 39--40 texts per class), accuracy and macro-F1 almost coincide.
+
+\subsection{Main comparison}
+\input{generated/main}
+
+\input{generated/paired}
+
+\begin{itemize}
+  \item \textbf{BGE-small has the highest macro-F1 on all three corpora} (89.24, 83.11, 92.88).
+  \item \textbf{The size of its advantage over TF-IDF depends on the corpus.} On AG News the gap is 1.01\,pp and its 95\% interval includes zero, so the two are not clearly separated. On Rotten Tomatoes (+5.55\,pp) and Banking77 (+3.50\,pp) the intervals exclude zero and BGE wins on every bootstrap resample.
+  \item \textbf{TextCNN is the weakest family on AG News and Rotten Tomatoes} (4.8 and 9.1\,pp below BGE), but on Banking77 it comes within 1.1\,pp of TF-IDF (88.31 vs.\ 89.41, overlapping intervals).
+\end{itemize}
+
+\subsection{Selected configurations and the effect of preprocessing}
+\input{generated/selected}
+
+\input{generated/validation}
+
+Table~\ref{tab:validation} isolates each preprocessing switch by comparing the best validation score reachable with and without it.
+\begin{itemize}
+  \item \textbf{Stop-word removal} helps AG News (+1.00\,pp) but hurts Rotten Tomatoes ($-2.85$) and Banking77 ($-4.26$). The removed list contains negations and question words (\textit{not, never, how, why, can}) that carry sentiment and intent.
+  \item \textbf{Bigrams} help on every corpus, most on Rotten Tomatoes (+3.00\,pp), where pairs such as \textit{not funny} or \textit{too long} reverse or qualify the meaning of single words.
+  \item \textbf{Tokenizer.} Whitespace splitting keeps punctuation attached (\textit{card?} $\neq$ \textit{card}), which fragments Banking77's small vocabulary ($-2.84$\,pp); elsewhere the difference is below 1\,pp.
+  \item \textbf{Classifier.} Naive Bayes is best on the two corpora with few classes and distinctive words; on Banking77 it is 4\,pp behind logistic regression, since 77 intents share most of their vocabulary and the independence assumption discards the word combinations that separate them.
+\end{itemize}
+For the selected models, validation and test macro-F1 differ by at most 2.5\,pp and in both directions (test is higher on Banking77), so there is no sign that selection over-fitted the validation split.
+
+\subsection{TextCNN training}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{textcnn_curves.pdf}
+\caption{TextCNN training loss and validation macro-F1 per epoch. Training stops three epochs after the last improvement; the best epoch (8, 13, 12) is restored.}
+\label{fig:textcnn}
+\end{figure}
+Training loss keeps decreasing while validation macro-F1 levels off after 8--13 epochs (Figure~\ref{fig:textcnn}); further epochs only fit the training set more closely. The plateau is lowest and noisiest on Rotten Tomatoes, whose 7{,}250 sentences offer the fewest repeated patterns per label. Banking77 has the smallest learned vocabulary (1{,}388 words) and highly repetitive phrasing, which is why TextCNN comes close to TF-IDF there.
+
+\subsection{Calibration}
+BGE-small has the lowest Brier score and an ECE of at most 0.029 on every corpus: its confidence matches its accuracy. The TF-IDF models are \emph{under}-confident: on Rotten Tomatoes the selected Naive Bayes has a mean top-class confidence of 0.66 against an accuracy of 0.78, and on Banking77 the regularised logistic regression spreads probability over 77 classes (mean confidence 0.76, accuracy 0.89), giving ECE values of 0.138 and 0.132. TextCNN is well calibrated on Banking77 (ECE 0.020) but not on Rotten Tomatoes (0.172), where its accuracy is also lowest. Macro-F1 alone would hide these differences; they matter whenever predicted probabilities are used for thresholds or abstention.
+
+\subsection{Negation}
+\input{generated/negation}
+On AG News, negation is irrelevant to the label and all gaps are within $\pm$1.1\,pp. On Banking77 every family loses about 3\,pp on queries with a negation cue, which often describe failures (\textit{my card is not working}, \textit{I did not receive my money}) that are close to other failure intents. On Rotten Tomatoes BGE loses 5.2\,pp, yet it remains the most accurate family on negated reviews (79.1\% vs.\ 76.8\% and 72.8\%). With 254 negated test reviews, the interval on each gap is roughly $\pm$5\,pp, so these differences are descriptive.
+
+\subsection{Error analysis (Banking77)}
+\input{generated/confusions}
+
+\input{generated/worst}
+
+The most frequent errors of the best model are between intents that differ by a single detail of the same event: \textit{top\_up\_reverted} vs.\ \textit{top\_up\_failed}, \textit{pending\_transfer} vs.\ \textit{transfer\_timing}, \textit{declined\_transfer} vs.\ \textit{declined\_card\_payment}. Many of these queries are ambiguous even for a human reader. The families also err differently: TF-IDF is better than BGE on intents marked by a fixed keyword (\textit{beneficiary\_not\_allowed} 89.2 vs.\ 84.3; \textit{transfer\_timing} 87.5 vs.\ 84.7), while BGE is better on paraphrase-heavy intents (\textit{failed\_transfer} 86.1 vs.\ 75.6; \textit{topping\_up\_by\_card} 86.8 vs.\ 79.5).

@@ -1,0 +1,145 @@
+{
+  "n_fit": 8488,
+  "n_val": 1498,
+  "n_test": 3076,
+  "classes": 77,
+  "min_class": 30,
+  "max_class": 159,
+  "length_mean": 11.973491988689915,
+  "length_median": 10.0,
+  "length_p95": 29.0,
+  "length_max": 79,
+  "vocabulary": 2243,
+  "hapax_share": 0.3811859117253678,
+  "negation_share": 0.2586003770028275,
+  "top_words": [
+    [
+      "i",
+      7021
+    ],
+    [
+      "my",
+      4848
+    ],
+    [
+      "to",
+      3416
+    ],
+    [
+      "a",
+      3026
+    ],
+    [
+      "the",
+      2946
+    ],
+    [
+      "card",
+      2296
+    ],
+    [
+      "is",
+      2010
+    ],
+    [
+      "it",
+      1566
+    ],
+    [
+      "can",
+      1561
+    ],
+    [
+      "do",
+      1554
+    ],
+    [
+      "for",
+      1328
+    ],
+    [
+      "how",
+      1301
+    ],
+    [
+      "why",
+      1173
+    ],
+    [
+      "up",
+      1161
+    ],
+    [
+      "what",
+      1159
+    ]
+  ],
+  "top_content_words": [
+    [
+      "card",
+      2296
+    ],
+    [
+      "account",
+      1145
+    ],
+    [
+      "money",
+      960
+    ],
+    [
+      "transfer",
+      930
+    ],
+    [
+      "payment",
+      640
+    ],
+    [
+      "need",
+      594
+    ],
+    [
+      "cash",
+      586
+    ],
+    [
+      "exchange",
+      468
+    ],
+    [
+      "charged",
+      453
+    ],
+    [
+      "atm",
+      404
+    ],
+    [
+      "app",
+      397
+    ],
+    [
+      "fee",
+      392
+    ],
+    [
+      "use",
+      378
+    ],
+    [
+      "pending",
+      367
+    ],
+    [
+      "did",
+      325
+    ]
+  ],
+  "train_missing_or_blank": 0,
+  "train_duplicates": 0,
+  "test_missing_or_blank": 0,
+  "test_duplicates": 0,
+  "removed_from_fit": 6,
+  "removed_from_val": 1
+}

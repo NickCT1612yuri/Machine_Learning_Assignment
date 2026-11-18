@@ -1,0 +1,14 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Validation macro-F1 (\%). Left: best TF-IDF configuration per classifier. Middle: change in the best achievable score (pp) when a switch is turned on (stop-word removal; adding bigrams; whitespace instead of regex tokenizer), maximising over all other settings. Right: best BGE-small score.}\label{tab:validation}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Corpus & NB & LogReg & SVM & Stop words & Bigrams & Whitespace & BGE \\
+\midrule
+AG News & \textbf{89.83} & 88.97 & 88.89 & +1.00 & +1.00 & -0.86 & 90.05 \\
+Rotten Tomatoes & \textbf{80.04} & 79.45 & 79.06 & -2.85 & +3.00 & +0.36 & 84.53 \\
+Banking77 & 84.06 & \textbf{88.12} & 87.82 & -4.26 & +0.31 & -2.84 & 91.62 \\
+\bottomrule
+\end{tabular}
+\end{table}

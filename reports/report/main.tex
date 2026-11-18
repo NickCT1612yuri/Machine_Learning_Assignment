@@ -1,38 +1,20 @@
-\documentclass[12pt,a4paper]{article}
-
-% Prefer XeLaTeX for Vietnamese Unicode names; also works with pdfLaTeX if fonts allow.
-\usepackage{iftex}
-\ifPDFTeX
-  \usepackage[utf8]{inputenc}
-  \usepackage[T1]{fontenc}
-\else
-  \usepackage{fontspec}
-  \defaultfontfeatures{Ligatures=TeX}
-  \setmainfont{Times New Roman}
-\fi
-
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
 \usepackage{hcmut}
-\thesislayout
-
-\usepackage{url}
-\usepackage{textcomp}
-
-\graphicspath{{../figures/}{Images/}{../../outputs/full/reports/}}
+\graphicspath{{Images/}{generated/}{../results/}}
 
 \begin{document}
-
-\input{0.tex}
-
-\input{sections/01_abstract}
-\input{sections/02_introduction}
-\input{sections/03_theory}
-\input{sections/04_eda}
-\input{sections/05_methodology}
-\input{sections/06_results}
-\input{sections/07_discussion}
-\input{sections/08_conclusions}
-\input{sections/09_work_distribution}
-\input{sections/10_reproducibility}
-\input{sections/11_references}
-
+\input{titlepage}
+\input{sections/00_abstract}
+\input{sections/01_introduction}
+\input{sections/02_background}
+\input{sections/03_data}
+\input{sections/04_method}
+\input{sections/05_results}
+\input{sections/06_discussion}
+\input{sections/07_conclusion}
+\input{sections/08_team}
+\input{sections/09_reproducibility}
+\input{sections/references}
 \end{document}

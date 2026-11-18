@@ -1,0 +1,145 @@
+{
+  "n_fit": 7250,
+  "n_val": 1280,
+  "n_test": 1066,
+  "classes": 2,
+  "min_class": 3625,
+  "max_class": 3625,
+  "length_mean": 18.87544827586207,
+  "length_median": 18.0,
+  "length_p95": 34.0,
+  "length_max": 51,
+  "vocabulary": 15759,
+  "hapax_share": 0.48803858112824416,
+  "negation_share": 0.2343448275862069,
+  "top_words": [
+    [
+      "the",
+      6944
+    ],
+    [
+      "a",
+      5027
+    ],
+    [
+      "and",
+      4224
+    ],
+    [
+      "of",
+      4178
+    ],
+    [
+      "to",
+      2929
+    ],
+    [
+      "is",
+      2305
+    ],
+    [
+      "in",
+      1842
+    ],
+    [
+      "that",
+      1676
+    ],
+    [
+      "it",
+      1525
+    ],
+    [
+      "as",
+      1210
+    ],
+    [
+      "but",
+      1135
+    ],
+    [
+      "with",
+      1092
+    ],
+    [
+      "this",
+      1012
+    ],
+    [
+      "film",
+      1007
+    ],
+    [
+      "for",
+      1005
+    ]
+  ],
+  "top_content_words": [
+    [
+      "film",
+      1007
+    ],
+    [
+      "movie",
+      909
+    ],
+    [
+      "it's",
+      784
+    ],
+    [
+      "like",
+      490
+    ],
+    [
+      "just",
+      315
+    ],
+    [
+      "story",
+      311
+    ],
+    [
+      "good",
+      281
+    ],
+    [
+      "time",
+      262
+    ],
+    [
+      "comedy",
+      260
+    ],
+    [
+      "characters",
+      230
+    ],
+    [
+      "way",
+      206
+    ],
+    [
+      "little",
+      205
+    ],
+    [
+      "director",
+      203
+    ],
+    [
+      "make",
+      201
+    ],
+    [
+      "funny",
+      195
+    ]
+  ],
+  "train_missing_or_blank": 0,
+  "train_duplicates": 0,
+  "test_missing_or_blank": 0,
+  "test_duplicates": 0,
+  "removed_from_fit": 0,
+  "removed_from_val": 0
+}

@@ -1,0 +1,17 @@
+\begin{table}[H]
+\centering
+\small
+\caption{Paired bootstrap of the macro-F1 gap between the best family and each other family (same 1{,}000 test resamples for both models).}\label{tab:paired}
+\begin{tabular}{@{}llrcr@{}}
+\toprule
+Corpus & Comparison & $\Delta$F1 (pp) & 95\% CI & P(best wins) \\
+\midrule
+AG News & BGE-small $-$ TF-IDF & +1.01 & [-0.16, +2.22] & 0.952 \\
+AG News & BGE-small $-$ TextCNN & +4.79 & [+3.35, +6.28] & 1.000 \\
+Rotten Tomatoes & BGE-small $-$ TF-IDF & +5.55 & [+2.65, +8.43] & 1.000 \\
+Rotten Tomatoes & BGE-small $-$ TextCNN & +9.07 & [+6.00, +12.19] & 1.000 \\
+Banking77 & BGE-small $-$ TF-IDF & +3.50 & [+2.52, +4.54] & 1.000 \\
+Banking77 & BGE-small $-$ TextCNN & +4.61 & [+3.64, +5.64] & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{table}

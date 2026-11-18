@@ -1,0 +1,74 @@
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Pipeline overview}
+Figure~\ref{fig:pipeline} shows the three pipelines. They share the same cleaned data, the same splits and the same evaluation code, so differences in results come from the representation and the learner, not from the protocol.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=0.45cm and 0.35cm,
+  box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize, minimum height=0.85cm, text width=3.6cm, fill=#1},
+  box/.default=white,
+  arr/.style={-{Stealth[length=2mm]}, thick}]
+  \node[box=blue!8, text width=12.4cm] (data) {Hugging Face corpus $\rightarrow$ cleaning (HTML entities, markup) $\rightarrow$ stratified fit\,/\,validation split $\rightarrow$ leakage filter against test};
+  \node[box=orange!10, text width=12.4cm, below=of data] (eda) {EDA on the fit split: class balance, length distribution, word frequencies, duplicates, negation share};
+  \node[box=green!8, below=0.7cm of eda] (tfidf) {\textbf{Traditional}\\TF-IDF (tokenizer, stop words, $n$-grams)\\[1pt]\texttt{tfidf.h5}};
+  \node[box=violet!8, right=of tfidf] (bge) {\textbf{Modern features}\\frozen BGE-small \texttt{[CLS]}\\[1pt]\texttt{bge\_*.npy}};
+  \node[box=red!6, left=of tfidf] (cnn) {\textbf{Deep learning (bonus)}\\token ids, fixed padding\\(no stored features)};
+  \node[box=green!8, below=of tfidf] (clf) {NB\,/\,LogReg\,/\,LinearSVC\\112 configurations};
+  \node[box=violet!8, below=of bge] (lr) {LogReg on scaled embeddings\\7 values of $C$};
+  \node[box=red!6, below=of cnn] (tcnn) {TextCNN trained end-to-end\\early stopping};
+  \node[box=gray!10, text width=12.4cm, below=0.7cm of clf] (sel) {Model selection on validation macro-F1 $\rightarrow$ one evaluation per family on the held-out test split};
+  \node[box=gray!10, text width=12.4cm, below=of sel] (eval) {Accuracy, macro P\,/\,R\,/\,F1, bootstrap CI, Brier, ECE, negation split, per-class F1, confusions};
+  \draw[arr] (data) -- (eda);
+  \foreach \n in {cnn,tfidf,bge} \draw[arr] (eda.south -| \n) -- (\n);
+  \draw[arr] (cnn) -- (tcnn); \draw[arr] (tfidf) -- (clf); \draw[arr] (bge) -- (lr);
+  \foreach \n in {tcnn,clf,lr} \draw[arr] (\n) -- (sel.north -| \n);
+  \draw[arr] (sel) -- (eval);
+\end{tikzpicture}
+\caption{Experimental pipeline. Green: traditional pipeline; violet: pretrained features with a classical head; red: optional deep-learning pipeline.}
+\label{fig:pipeline}
+\end{figure}
+
+\subsection{Data splits and leakage control}
+The official training split is divided into 85\% \emph{fit} and 15\% \emph{validation} by stratified sampling (seed 42); the official test split is used only for the final evaluation. AG News is first reduced by stratified sampling to 10{,}000 training and 2{,}000 test texts to keep a full run under a few minutes. Any development text that also appears verbatim in a later split is removed (Table~\ref{tab:eda}, last column), so no model is fitted or selected on a test sentence. The TF-IDF vocabulary, TextCNN vocabulary and all scalers are fitted on the fit split only.
+
+\subsection{Configurable preprocessing and search space}
+Every step is a parameter of the pipeline (\texttt{modules/config.py} and command-line flags). Table~\ref{tab:grid} lists all configurations that were evaluated on the validation split.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Search space. Each TF-IDF preprocessing combination is crossed with every classifier setting.}
+\label{tab:grid}
+\begin{tabular}{@{}l P{6.2cm} P{5.0cm}@{}}
+\toprule
+Pipeline & Options evaluated on validation & Fixed settings \\
+\midrule
+TF-IDF & tokenizer $\in$ \{regex word pattern, whitespace\}; stop-word removal $\in$ \{off, on\}; $n$-grams $\in$ \{1, 1--2\} (8 combinations) & lower-casing, \texttt{min\_df}=2, 25{,}000 features, sub-linear tf \\
+Classifier on TF-IDF & NB $\alpha\in\{0.01,0.03,0.1,0.3,1,3\}$; LogReg $C\in\{1,4,16,64\}$; LinearSVC $C\in\{0.1,0.3,1,3\}$ (14 settings; 112 runs in total) & LogReg: L-BFGS, 2{,}000 iterations \\
+BGE-small & LogReg $C\in\{0.001,0.003,\dots,1\}$ (7 values) & standardised features; \texttt{[CLS]} pooling; padding dynamic or fixed (attention mask makes them equivalent) \\
+TextCNN & epoch (1--20; early stopping with patience 3) & 100-d embeddings, widths 3/4/5 $\times$ 64 filters, dropout 0.5, Adam $10^{-3}$, batch 32, vocabulary $\le$ 20{,}000 words seen twice \\
+Token budget & --- & 96 tokens (AG News), 64 (others): above the 95th-percentile length \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+On 600 Rotten Tomatoes texts, dynamic and fixed padding give BGE embeddings that differ by at most $2\times10^{-7}$, so padding affects speed only.
+
+\subsection{Feature persistence}
+As the assignment requires, extracted features are written to disk and the classical classifiers are trained from these files rather than from the in-memory transform:
+\begin{itemize}
+  \item \texttt{features/<corpus>/tfidf.h5}: CSR matrices (data, indices, pointers, shape) and labels for fit, validation and test, for the selected TF-IDF configuration;
+  \item \texttt{features/<corpus>/bge\_\{fit,val,test\}.npy}: $N\times 384$ float32 embeddings, with labels in \texttt{y\_\{fit,val,test\}.npy}.
+\end{itemize}
+TextCNN learns its representation during training, so it has no separate feature file.
+
+\subsection{Evaluation protocol}
+Each family contributes exactly one model to the test evaluation: the configuration with the highest validation macro-F1. On the test split we report the metrics of Section~\ref{sec:metrics} and three further analyses:
+\begin{enumerate}
+  \item \textbf{Uncertainty.} 1{,}000 bootstrap resamples of the test set give a 95\% percentile interval for macro-F1 \cite{efron1993}. The same resamples are used for every model, so the paired difference between two models and the share of resamples in which one wins can be computed directly.
+  \item \textbf{Negation split.} Test texts matching a negation cue (\textit{not, no, never, nothing, nobody, none, cannot, nor, without, n't}) are scored separately from the rest.
+  \item \textbf{Error analysis.} Per-class F1 and the most frequent confusion pairs for each family.
+\end{enumerate}

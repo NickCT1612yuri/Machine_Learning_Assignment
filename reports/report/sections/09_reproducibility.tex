@@ -1,0 +1,10 @@
+\section{Reproducibility and deliverables}
+\label{sec:repro}
+
+\begin{itemize}
+  \item \textbf{Notebook.} \texttt{notebooks/text\_classification\_colab.ipynb} runs end to end with \emph{Runtime $\rightarrow$ Run all}: it installs missing libraries, writes the project modules, downloads the corpora and the encoder from Hugging Face, and produces every result used in this report. No cloud drive is mounted.
+  \item \textbf{Code.} \texttt{modules/} (configuration, data, features, models, evaluation, pipeline) is shared by the notebook and the command line (\texttt{python main.py}); \texttt{tests/} checks leakage-free fitting, test-label independence of model selection, the HDF5 round trip, text cleaning and the calibration metrics.
+  \item \textbf{Features.} \texttt{features/<corpus>/tfidf.h5}, \texttt{bge\_\{fit,val,test\}.npy} and \texttt{y\_*.npy}.
+  \item \textbf{Results.} \texttt{reports/results/<corpus>/}: EDA, all validation runs, test metrics, bootstrap comparisons, per-class F1, confusions, negation split, predictions and TextCNN history. All tables in Section~\ref{sec:results} are generated from these files by \texttt{reports/report/make\_tables.py}.
+  \item \textbf{Determinism.} Seed 42 for sampling, splitting, bootstrap and TextCNN; library versions are logged in \texttt{run.json}. BGE embeddings were computed on an Apple MPS device and TextCNN on CPU; other hardware may change the last decimals.
+\end{itemize}

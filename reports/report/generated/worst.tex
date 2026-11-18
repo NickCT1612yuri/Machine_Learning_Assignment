@@ -1,0 +1,19 @@
+\begin{table}[H]
+\centering
+\footnotesize
+\caption{Banking77 intents with the lowest test F1 for BGE-small (\%).}\label{tab:worst}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Intent (lowest BGE F1) & TF-IDF & BGE-small & TextCNN \\
+\midrule
+\texttt{balance\_not\_updated\_after\_bank\_transfer} & 74.70 & 77.11 & 74.67 \\
+\texttt{pending\_transfer} & 81.08 & 78.87 & 67.57 \\
+\texttt{beneficiary\_not\_allowed} & 89.16 & 84.34 & 86.42 \\
+\texttt{transfer\_timing} & 87.50 & 84.71 & 80.43 \\
+\texttt{failed\_transfer} & 75.61 & 86.08 & 80.90 \\
+\texttt{declined\_transfer} & 86.49 & 86.11 & 82.86 \\
+\texttt{topping\_up\_by\_card} & 79.45 & 86.75 & 76.19 \\
+\texttt{top\_up\_reverted} & 83.54 & 87.18 & 83.54 \\
+\bottomrule
+\end{tabular}
+\end{table}

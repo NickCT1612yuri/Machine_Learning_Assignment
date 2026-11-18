@@ -1,0 +1,40 @@
+{
+  "dataset": "rotten_tomatoes",
+  "source": "cornell-movie-review-data/rotten_tomatoes",
+  "labels": [
+    "neg",
+    "pos"
+  ],
+  "seed": 42,
+  "quick": false,
+  "max_len": 64,
+  "batch_size": 32,
+  "bge_model": "BAAI/bge-small-en-v1.5",
+  "textcnn": {
+    "vocab_size": 20000,
+    "min_count": 2,
+    "emb_dim": 100,
+    "n_filters": 64,
+    "widths": [
+      3,
+      4,
+      5
+    ],
+    "dropout": 0.5,
+    "lr": 0.001,
+    "max_epochs": 20,
+    "patience": 3
+  },
+  "bge_device": "mps",
+  "environment": {
+    "python": "3.15.2",
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "torch": "2.15.0",
+    "transformers": "5.22.1",
+    "datasets": "5.1.0",
+    "h5py": "3.16.0"
+  }
+}
