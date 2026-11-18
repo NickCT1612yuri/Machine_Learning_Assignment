@@ -1,123 +1,53 @@
-# Configurable Text Classification Pipeline: from Sparse Lexical Baselines to Word2Vec, Frozen Transformers, XGBoost and SetFit
+# Text Classification — Machine Learning Assignment
 
-## 1. Course and academic information
+HCMUT, Faculty of Computer Science and Engineering · Semester I, 2026–2027 · Task 2: text data.
 
-| | |
-| --- | --- |
-| University | Ho Chi Minh City University of Technology (HCMUT), VNU-HCM |
-| Faculty | Faculty of Computer Science and Engineering |
-| Course | Machine Learning |
-| Course code | [Course code, e.g. CO3117] |
-| Semester / academic year | Semester I, 2026-2027 |
-| Track | Task 2 - Machine Learning with Text Data (+ bonus deep-learning pipeline) |
-| Instructor | [Instructor full name and title] ([instructor email]) |
+**To be completed by the team:** course code, instructor name and email, full names, student IDs, emails, actual responsibilities, contribution percentages, registration of datasets with the instructor, and evidence of collaboration. The percentages must total 100%. Do not submit placeholder details.
 
-## 2. Group members and work distribution
-
-Individual grade = group grade x contribution percentage (assignment Section 6).
-
-| Full name | Student ID | Email | Main responsibilities | Contribution |
+| Member | Student ID | Email | Actual work | Contribution |
 | --- | --- | --- | --- | --- |
-| [Member 1 full name] | [Student ID] | [member1@hcmut.edu.vn] | Data loading and boolean preprocessing (`data_loader.py`, `config.py`), EDA (`eda.py`), traditional features (BoW / TF-IDF), Naive Bayes / LogReg / LinearSVC, preprocessing ablation, README and repository | 50% |
-| [Member 2 full name] | [Student ID] | [member2@hcmut.edu.vn] | Word2Vec / DistilBERT / BGE-small and `.npy` / `.h5` persistence (`feature_extraction.py`), XGBoost (`classifiers.py`), bonus BiLSTM + TextCNN + SetFit 3×3 (`deep_learning.py`), evaluation figures (`evaluation.py`), PDF report | 50% |
+| [Name] | [ID] | [email] | [responsibilities] | [%] |
+| [Name] | [ID] | [email] | [responsibilities] | [%] |
 
-Collaboration evidence (meeting minutes, photos, chat screenshots) goes in [`reports/evidence/`](reports/evidence/).
+## Design
 
-## 3. Objectives
+We compare (1) TF-IDF and conventional classifiers, (2) frozen pretrained BGE-small embeddings with logistic regression and (3) a TextCNN trained end-to-end from random word embeddings. The Transformer is a fixed feature extractor; it is not fine-tuned. TextCNN provides the optional deep-learning pipeline.
 
-The assignment asks for a complete traditional machine-learning pipeline on text (EDA, preprocessing, feature extraction, training, evaluation), at least one traditional and one deep-learning feature extractor whose outputs are saved as `.npy` or `.h5`, a pipeline whose preprocessing (stop-word removal, tokenization, padding), embedding and classifier can be configured, and a comparison of traditional and modern approaches. This repository implements all of that, plus the bonus deep-learning pipeline:
+Public sources: [AG News](https://huggingface.co/datasets/fancyzhx/ag_news), [Rotten Tomatoes](https://huggingface.co/datasets/cornell-movie-review-data/rotten_tomatoes), [Banking77](https://huggingface.co/datasets/mteb/banking77), and [BGE-small](https://huggingface.co/BAAI/bge-small-en-v1.5). Confirm the datasets do not duplicate another group’s choice and are approved by the instructor.
 
-* **Three datasets that stress different abilities** (all public Hugging Face links, no Google Drive):
+The original training split is stratified into 85% fit and 15% validation (seed 42); the official test split is held out. To avoid exact duplicate leakage, validation records matching test text are excluded, and fit records matching validation or test text are excluded. The original dataset and test data are not changed; counts before filtering and excluded records are logged. AG News is sampled to 10,000 original train and 2,000 test instances for practical resource use; the other datasets use the complete official train/test splits. The official Rotten Tomatoes validation split is not used: validation is instead drawn from its official train split. Validation Macro-F1 selects TF-IDF stop-word setting, unigrams/bigrams, classifier and hyperparameter; BGE logistic-regression `C`; and TextCNN early-stopping epoch. Each selected family is evaluated on test once. Comparisons report accuracy and macro precision, recall and F1. Scores from one split/seed are estimates, not uncertainty intervals.
 
-  | Dataset | Classes | Train / test | Regime |
-  | --- | --- | --- | --- |
-  | [`fancyzhx/ag_news`](https://huggingface.co/datasets/fancyzhx/ag_news) | 4 news topics | 10,000 / 2,000 (stratified sample) | lexical: topic keywords separate the classes |
-  | [`cornell-movie-review-data/rotten_tomatoes`](https://huggingface.co/datasets/cornell-movie-review-data/rotten_tomatoes) | 2 (sentiment) | 8,530 / 1,066 (official) | compositional: short critic sentences with negation and irony |
-  | [`mteb/banking77`](https://huggingface.co/datasets/mteb/banking77) | 77 intents | 9,993 / 3,076 (official) | high-cardinality: fine-grained intents sharing the same nouns |
+The default experiment uses both features and all three TF-IDF classifiers; `--embeddings tfidf bge` and `--classifiers nb logreg svm` can narrow the search for local checks. Keep both embeddings in the submission run. Preprocessing options: `--tokenization regex|whitespace` configures TF-IDF; the pretrained encoder always uses its own tokenizer. TF-IDF validates stop-word removal on/off. `--padding dynamic|fixed` controls Transformer batching; both options retain attention masks and identical truncation. TextCNN uses padded word sequences and a train-only vocabulary. Max lengths are explicit in `modules/assignment_pipeline.py`. The feature extractor, classifier settings and other options are deliberately modest, rather than a broad fragile model grid.
 
-* **Boolean preprocessing switches** `PreprocessConfig(stop_word_removal, tokenization, padding, negation_marking)`, each ablatable one at a time.
-* **Five feature extractors, cached as `.npy` and `.h5`**: BoW and sublinear TF-IDF (sparse + SVD-30), Word2Vec skip-gram mean-pool (300-d + PCA-30, KV cached for DL), frozen DistilBERT (768-d) and BGE-small (384-d) with PCA-30.
-* **Classifiers**: Naive Bayes (Multinomial / Gaussian), Logistic Regression, calibrated LinearSVC, and **XGBoost**.
-* **Bonus deep learning (flexible 3×3)**: BiLSTM, TextCNN, and SetFit × Word2Vec / DistilBERT / BGE-small (all nine combinations runnable; SetFit×Word2Vec and SetFit×DistilBERT use SentenceTransformer adapters).
-* **Metrics**: accuracy, macro precision / recall / F1, multiclass Brier score, expected calibration error, training and inference time.
+## Run in Google Colab
 
-Headline results: [`reports/master_comparison.csv`](reports/master_comparison.csv) (full matrix) and [`reports/master_comparison_cherry.csv`](reports/master_comparison_cherry.csv) (report tables). PDF: [`reports/ML_Assignment_Report.pdf`](reports/ML_Assignment_Report.pdf).
+Open https://colab.research.google.com/, select File > Upload notebook, and choose the **local** file `notebooks/text_classification_colab.ipynb`. Alternatively, open the notebook from the feature branch on GitHub. Choose a T4 GPU if available and run each cell in order. The default configuration uses `QUICK=True` and Rotten Tomatoes for a smoke test. Once it runs successfully, set `QUICK=False` and select the desired datasets.
 
-## 4. Project structure
+The notebook installs dependencies, downloads public data and the BGE model, and runs without a personal Drive. The output is in `experiment_outputs/features/` and `experiment_outputs/reports/` in the temporary runtime. These are feature files, EDA and evaluation results; no report or ZIP is generated. Download files you need before the runtime disconnects. After modifying `modules/assignment_pipeline.py`, regenerate the notebook with `python notebooks/build_colab_notebook.py` before uploading it.
 
-Submission layout required by the course assignment (Section 5):
+## Run locally
 
-```
-notebooks/                          Colab front end
-modules/                            supporting Python package
-reports/                            PDF report, CSV tables, figures, evidence/
-features/                           extracted embeddings (.npy / .npz / .h5)
+```powershell
+cd D:\baitaplonML\Machine_Learning_Assignment
+python -m pip install -r requirements.txt
+python -m unittest tests_pipeline -v
+python main.py --quick              # smoke test, outputs/quick
+python main.py                      # full configured datasets, outputs/full
+python main.py --dataset banking77 --padding fixed --tokenization regex
 ```
 
-Expanded tree:
+First run needs internet access to Hugging Face. If files have already been downloaded to a chosen Hugging Face cache, set `HF_HOME` accordingly; optionally set `HF_HUB_OFFLINE=1` to avoid network access. On this machine a previously downloaded cache is at `D:\baitaplonML\hf_cache`. No test outputs are overwritten by quick runs.
 
-```
-notebooks/
-  text_classification_colab.ipynb   Colab front end (Runtime -> Run all)
-  build_colab_notebook.py           regenerates the notebook from modules/
-modules/
-  config.py, data_loader.py, eda.py, feature_extraction.py,
-  classifiers.py, deep_learning.py, evaluation.py, word2vec_utils.py, utils.py
-features/<dataset>/<embedding>_<tag>/
-  X_train.npy / X_test.npy          dense embeddings
-  X_train_sparse.npz / X_test_sparse.npz   sparse BoW / TF-IDF
-  X_*_pca30.npy, y_*.npy, features.h5, meta.json
-reports/
-  ML_Assignment_Report.pdf / .md
-  master_comparison.csv, master_comparison_cherry.csv, master_ablation.csv, ...
-  figures/pipeline_overview.png, figures/master_f1_heatmap.png, figures/<dataset>/*.png
-  evidence/
-scripts/                            optional helpers (cherry-pick plots, pipeline figure)
-docs/                               course assignment PDF / planning notes (not part of the zip checklist)
-main.py                             command-line runner (same code path as the notebook)
-requirements.txt
-```
+## Output files
 
-`<tag>` encodes the preprocessing switches, e.g. `sw0_tok1_pad1_neg0` = stop words kept, subword/bigram tokenization on, padding with masking on, negation marking off (the default configuration).
+- `outputs/full/reports/<dataset>/validation.csv`: tested configurations and validation metrics.
+- `outputs/full/reports/<dataset>/test_results.csv`: one held-out test result per selected family. `*_classification_report.csv`, confusion matrices, and `*_errors.csv` provide per-class/error analysis.
+- `outputs/full/features/<dataset>/tfidf.h5`: fit/validation/test sparse TF-IDF matrices and labels. Classifier is fitted using the read-back matrices.
+- `outputs/full/features/<dataset>/bge_{fit,val,test}.npy`: frozen embeddings read back as inputs to the downstream classifier, plus `y_*.npy` labels.
+- `notebooks/` and `modules/`: notebook and source code. Output feature binaries are intentionally not committed to Git; include them or an accessible download link in the final submission.
 
-## 5. How to run
+The report is reserved for a later stage; existing reports are preserved. Legacy modules, figures and `reports/ML_Assignment_Report.pdf` are retained for historical comparison. They were produced by the earlier workflow and **must not be presented as results of the new pipeline**. The new workflow does not use legacy Word2Vec, XGBoost or SetFit.
 
-### Option A: Google Colab (recommended for grading)
+## Reproducibility and limits
 
-1. Open [`notebooks/text_classification_colab.ipynb`](notebooks/text_classification_colab.ipynb) in Colab ([Colab link](https://colab.research.google.com/github/NickCT1612yuri/text-classification-ml-assignment/blob/main/notebooks/text_classification_colab.ipynb)) and select a GPU runtime (T4).
-2. Click **Runtime -> Run all**. The notebook
-   * installs only the missing libraries (`h5py`, `datasets`, `sentence-transformers`, `setfit`, `xgboost`, ...),
-   * uses the repository's `modules/` if present, otherwise clones `REPO_URL` (set it in the second cell) or writes the module files embedded in the notebook,
-   * downloads the three datasets from the public Hugging Face Hub (no Google Drive mount),
-   * writes the features to `features/`, the tables and figures to `reports/`.
-
-Pretrained weights are downloaded automatically from Hugging Face: `distilbert-base-uncased` and `BAAI/bge-small-en-v1.5`. Word2Vec is trained per dataset on the train split (or loaded from `WORD2VEC_KV_PATH` if set).
-
-### Option B: local
-
-```bash
-python -m venv .venv
-source .venv/bin/activate            # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-
-python main.py --quick               # smoke test on small subsets (writes to .quick/)
-python main.py --dataset all         # full benchmark (same code as the notebook)
-python main.py --dataset banking77 --skip-setfit --skip-textcnn
-
-# or execute the notebook itself
-jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 \
-    notebooks/text_classification_colab.ipynb
-```
-
-If you change anything in `modules/`, run `python notebooks/build_colab_notebook.py` so the notebook embeds the new sources.
-
-Full runtime depends on the 3×3 DL grid (especially DistilBERT/BGE → BiLSTM/TextCNN and SetFit). Extracted features and Word2Vec KVs are cached, so a re-run only retrains heads where needed.
-
-On Python 3.13+ there may be no pre-built `h5py` wheel; install the HDF5 library first (`brew install hdf5`, then `HDF5_DIR=$(brew --prefix hdf5) pip install h5py`).
-
-## 6. Deliverables
-
-* Colab notebook: [`notebooks/text_classification_colab.ipynb`](notebooks/text_classification_colab.ipynb) ([open in Colab](https://colab.research.google.com/github/NickCT1612yuri/text-classification-ml-assignment/blob/main/notebooks/text_classification_colab.ipynb))
-* PDF report: [`reports/ML_Assignment_Report.pdf`](reports/ML_Assignment_Report.pdf)
-* Extracted features (`.npy`, `.npz`, `.h5`): regenerate into [`features/`](features/) with `python main.py --dataset all` or Colab Run all (binaries are gitignored; see [`features/README.md`](features/README.md)). For the course zip, attach a packed `features/` archive if required.
-* GitHub repository: [https://github.com/NickCT1612yuri/text-classification-ml-assignment](https://github.com/NickCT1612yuri/text-classification-ml-assignment)
+Fitting and vocabulary construction use fit data only. No configuration selection uses test labels. The code stores seed, settings and split sizes alongside results. GPU operations can have small nondeterministic differences. Dataset/model versions and library releases can change; preserve the exact execution environment, generated feature files and result tables with the submission. No model performance claim is guaranteed without executing the full notebook.

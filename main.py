@@ -1,61 +1,24 @@
-"""
-Run the whole text-classification assignment from the terminal.
-
-Examples
---------
-# Smoke test: tiny subsets, 2 BiLSTM/TextCNN epochs, every block exercised
-python main.py --quick
-
-# Full benchmark on every dataset (same code path as the Colab notebook)
-python main.py --dataset all
-
-# One dataset, skipping slow optional blocks
-python main.py --dataset banking77 --skip-setfit --skip-textcnn
-"""
-
+"""Run the assignment pipeline; full and quick outputs are isolated."""
 import argparse
-import os
-
+from pathlib import Path
+from modules.assignment_pipeline import REGISTRY, run_dataset
 
 def main():
-    parser = argparse.ArgumentParser(description="Configurable text-classification benchmark")
-    parser.add_argument("--dataset", default="all", choices=["all", "ag_news", "rotten_tomatoes", "banking77"])
-    parser.add_argument("--quick", action="store_true", help="small subsets for a fast end-to-end check")
-    parser.add_argument("--skip-ablation", action="store_true")
-    parser.add_argument("--skip-xgboost", action="store_true")
-    parser.add_argument("--skip-bilstm", action="store_true")
-    parser.add_argument("--skip-textcnn", action="store_true")
-    parser.add_argument("--skip-setfit", action="store_true")
-    args = parser.parse_args()
+ p=argparse.ArgumentParser(description='Text classification assignment')
+ p.add_argument('--dataset',choices=['all',*REGISTRY],default='all')
+ p.add_argument('--quick',action='store_true',help='small subsets for smoke testing only')
+ p.add_argument('--padding',choices=['dynamic','fixed'],default='dynamic')
+ p.add_argument('--tokenization',choices=['regex','whitespace'],default='regex',help='TF-IDF tokenization; Transformer uses its pretrained tokenizer')
+ p.add_argument('--classifiers',nargs='+',choices=['nb','logreg','svm'],default=['nb','logreg','svm'])
+ p.add_argument('--embeddings',nargs='+',choices=['tfidf','bge'],default=['tfidf','bge'],help='Use both for assignment submission')
+ p.add_argument('--batch-size',type=int,default=32)
+ p.add_argument('--epochs',type=int,default=7)
+ p.add_argument('--output',type=Path,default=None)
+ a=p.parse_args()
+ if a.batch_size<1 or a.epochs<1: p.error('batch size and epochs must be positive')
+ root=a.output or Path(__file__).resolve().parent/'outputs'/('quick' if a.quick else 'full')
+ names=list(REGISTRY) if a.dataset=='all' else [a.dataset]
+ for n in names: run_dataset(n,root,a.quick,a.epochs,a.batch_size,a.padding,a.tokenization,a.classifiers,a.embeddings)
+ print(f'Finished; results and feature files: {root.resolve()}')
 
-    if args.quick:
-        os.environ["TC_QUICK"] = "1"
-    import matplotlib
-
-    matplotlib.use("Agg")
-
-    from modules.config import DATASET_ORDER
-    from modules.evaluation import build_master_table, run_all_eda, run_dataset_benchmark_suite
-    from modules.utils import seed_everything
-
-    seed_everything()
-    names = DATASET_ORDER if args.dataset == "all" else [args.dataset]
-    print(run_all_eda(names).T.to_string())
-    for name in names:
-        print("\n" + "=" * 70 + f"\n{name}\n" + "=" * 70)
-        results, _ = run_dataset_benchmark_suite(
-            name,
-            run_ablation=not args.skip_ablation,
-            run_xgboost=not args.skip_xgboost,
-            run_bilstm_model=not args.skip_bilstm,
-            run_textcnn_model=not args.skip_textcnn,
-            run_setfit_model=not args.skip_setfit,
-        )
-        cols = ["method", "accuracy", "f1", "brier_score", "ece", "train_time_sec", "infer_time_sec"]
-        print(results[cols].round(4).to_string(index=False))
-    master = build_master_table(names)
-    print(f"\nmaster table: {len(master)} rows -> reports/master_comparison.csv")
-
-
-if __name__ == "__main__":
-    main()
+if __name__=='__main__': main()
