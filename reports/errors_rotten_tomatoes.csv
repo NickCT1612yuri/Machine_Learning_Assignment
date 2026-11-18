@@ -1,3 +1,0 @@
-dataset,model,true,predicted,count,share_of_true_class,example_1,example_2
-Rotten Tomatoes,BGE-small + XGBoost,pos,neg,93,0.174,"it's like a "" big chill "" reunion of the baader-meinhof gang , only these guys are more harmless pranksters than political activists .",weighty and ponderous but every bit as filling as the treat of the title .
-Rotten Tomatoes,BGE-small + XGBoost,neg,pos,80,0.15,the densest distillation of roberts' movies ever made .,a film without surprise geared toward maximum comfort and familiarity .

@@ -1,0 +1,11 @@
+dataset,method,family,embedding,classifier,input,input_dim,preprocess,accuracy,precision,recall,f1,brier_score,ece,extract_time_sec,train_time_sec,infer_time_sec,notes
+Banking77,TF-IDF + MultinomialNB,Traditional (sparse lexical),TF-IDF,naive_bayes,sparse,10290,sw0_tok1_pad1_neg0,0.823472,0.848267,0.823368,0.815444,0.440468,0.385952,0.234,0.014352,0.005884,
+Banking77,TF-IDF + LogReg,Traditional (sparse lexical),TF-IDF,logreg,sparse,10290,sw0_tok1_pad1_neg0,0.886216,0.891771,0.886139,0.886495,0.315462,0.329068,0.234,2.099917,0.002882,
+Banking77,TF-IDF + LinearSVC,Traditional (sparse lexical),TF-IDF,svm,sparse,10290,sw0_tok1_pad1_neg0,0.891743,0.89665,0.891658,0.891829,0.180983,0.127193,0.234,1.303828,0.021954,
+Banking77,Word2Vec + GaussianNB,Static word embeddings,Word2Vec,naive_bayes,dense,300,sw0_tok1_pad1_neg0,0.631664,0.653532,0.631527,0.630967,0.704376,0.345541,79.503,0.011647,0.062585,
+Banking77,Word2Vec + LogReg,Static word embeddings,Word2Vec,logreg,dense,300,sw0_tok1_pad1_neg0,0.784135,0.790966,0.784116,0.784314,0.331204,0.098623,79.503,1.467238,0.002959,
+Banking77,Word2Vec + LinearSVC,Static word embeddings,Word2Vec,svm,dense,300,sw0_tok1_pad1_neg0,0.746099,0.757549,0.746004,0.744315,0.440263,0.250448,79.503,20.118143,0.020792,
+Banking77,DistilBERT + GaussianNB,Modern (frozen Transformer),DistilBERT,naive_bayes,dense,768,sw0_tok1_pad1_neg0,0.706112,0.726179,0.706019,0.706906,0.574142,0.284216,14.989,0.023425,0.142786,
+Banking77,DistilBERT + LogReg,Modern (frozen Transformer),DistilBERT,logreg,dense,768,sw0_tok1_pad1_neg0,0.873212,0.876047,0.873144,0.872881,0.205423,0.0721,14.989,0.673248,0.004863,
+Banking77,DistilBERT + LinearSVC,Modern (frozen Transformer),DistilBERT,svm,dense,768,sw0_tok1_pad1_neg0,0.859883,0.86446,0.859815,0.859686,0.239906,0.156759,14.989,50.279078,0.025661,
+Banking77,BiLSTM (word2vec),Deep learning (end-to-end),Word2Vec,bilstm,word2vec,29,sw0_tok1_pad1_neg0,0.831274,0.842324,0.831219,0.830712,0.242077,0.019413,0.0,62.488774,0.826027,"bilstm x word2vec, 7 epochs"

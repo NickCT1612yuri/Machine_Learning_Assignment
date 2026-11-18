@@ -1,16 +1,12 @@
 """
-Run the whole text-classification assignment from the terminal.
+Run the Banking77 text-classification assignment from the terminal.
 
 Examples
 --------
-# Smoke test: tiny subsets, 2 BiLSTM/TextCNN epochs, every block exercised
-python main.py --quick
-
-# Full benchmark on every dataset (same code path as the Colab notebook)
-python main.py --dataset all
-
-# One dataset, skipping slow optional blocks
-python main.py --dataset banking77 --skip-setfit --skip-textcnn
+python main.py --quick                 # smoke test on a small subset
+python main.py                         # full Banking77 benchmark
+python main.py --skip-bilstm           # classical pipeline only
+python main.py --skip-ablation
 """
 
 import argparse
@@ -18,14 +14,16 @@ import os
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Configurable text-classification benchmark")
-    parser.add_argument("--dataset", default="all", choices=["all", "ag_news", "rotten_tomatoes", "banking77"])
+    parser = argparse.ArgumentParser(description="Configurable Banking77 text-classification benchmark")
+    parser.add_argument(
+        "--dataset",
+        default="banking77",
+        choices=["banking77"],
+        help="Dataset to run (assignment scope is Banking77 only)",
+    )
     parser.add_argument("--quick", action="store_true", help="small subsets for a fast end-to-end check")
     parser.add_argument("--skip-ablation", action="store_true")
-    parser.add_argument("--skip-xgboost", action="store_true")
     parser.add_argument("--skip-bilstm", action="store_true")
-    parser.add_argument("--skip-textcnn", action="store_true")
-    parser.add_argument("--skip-setfit", action="store_true")
     args = parser.parse_args()
 
     if args.quick:
@@ -39,17 +37,14 @@ def main():
     from modules.utils import seed_everything
 
     seed_everything()
-    names = DATASET_ORDER if args.dataset == "all" else [args.dataset]
+    names = DATASET_ORDER if args.dataset == "banking77" else [args.dataset]
     print(run_all_eda(names).T.to_string())
     for name in names:
         print("\n" + "=" * 70 + f"\n{name}\n" + "=" * 70)
         results, _ = run_dataset_benchmark_suite(
             name,
             run_ablation=not args.skip_ablation,
-            run_xgboost=not args.skip_xgboost,
             run_bilstm_model=not args.skip_bilstm,
-            run_textcnn_model=not args.skip_textcnn,
-            run_setfit_model=not args.skip_setfit,
         )
         cols = ["method", "accuracy", "f1", "brier_score", "ece", "train_time_sec", "infer_time_sec"]
         print(results[cols].round(4).to_string(index=False))

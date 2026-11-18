@@ -1,22 +1,23 @@
 # Extracted features
 
-This directory holds per-dataset embedding caches written by the pipeline:
+This directory holds Banking77 embedding caches written by the pipeline:
 
 ```
-features/<dataset>/<embedding>_<preprocess_tag>/
+features/banking77/<embedding>_<preprocess_tag>/
   X_train.npy | X_train_sparse.npz
   X_test.npy  | X_test_sparse.npz
   X_train_pca30.npy, X_test_pca30.npy
   y_train.npy, y_test.npy
   features.h5, meta.json
+  word2vec.kv.npz   # Word2Vec only
 ```
 
-The binary caches are **not** committed to GitHub (they exceed typical repository size limits). Regenerate them locally or in Colab:
+Default embeddings: `tfidf`, `word2vec`, `distilbert`. Binary caches are **not** committed to GitHub. Regenerate:
 
 ```bash
-python main.py --dataset all
+python main.py
 ```
 
 or **Runtime → Run all** in `notebooks/text_classification_colab.ipynb`.
 
-For the course zip submission, attach a packed `features/` archive alongside the repository if the instructor requires the `.npy` / `.h5` files on disk.
+For the course zip, attach a packed `features/` archive if the instructor requires the `.npy` / `.h5` files on disk.

@@ -1,0 +1,38 @@
+\documentclass[12pt,a4paper]{article}
+
+% Prefer XeLaTeX for Vietnamese Unicode names; also works with pdfLaTeX if fonts allow.
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+\else
+  \usepackage{fontspec}
+  \defaultfontfeatures{Ligatures=TeX}
+  \setmainfont{Times New Roman}
+\fi
+
+\usepackage{hcmut}
+\thesislayout
+
+\usepackage{url}
+\usepackage{textcomp}
+
+\graphicspath{{../figures/}{Images/}}
+
+\begin{document}
+
+\input{0.tex}
+
+\input{sections/01_abstract}
+\input{sections/02_introduction}
+\input{sections/03_theory}
+\input{sections/04_eda}
+\input{sections/05_methodology}
+\input{sections/06_results}
+\input{sections/07_discussion}
+\input{sections/08_conclusions}
+\input{sections/09_work_distribution}
+\input{sections/10_reproducibility}
+\input{sections/11_references}
+
+\end{document}

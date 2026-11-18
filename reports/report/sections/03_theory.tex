@@ -1,0 +1,25 @@
+\section{Theoretical background}
+
+\subsection{Lexical representations}
+
+\textbf{TF-IDF} reweights term frequencies by inverse document frequency so that rare, discriminative words receive higher weight. \textbf{$n$-grams} (here, unigrams and bigrams) partially recover local order (\textit{not arrived}, \textit{top up}). These features are sparse, interpretable, and effective when class labels correlate with specific lexical patterns---even when those patterns are short phrases rather than single topic keywords.
+
+\subsection{Classical classifiers}
+
+\textbf{Multinomial Naive Bayes} models $P(x \mid y)$ under a conditional independence assumption over features. On sparse word counts this assumption is often useful; on dense, highly correlated embedding dimensions, Gaussian Naive Bayes tends to over-count evidence and produce overconfident posteriors.
+
+\textbf{Logistic regression} and the \textbf{linear SVM} are discriminative models. Logistic regression estimates $P(y \mid x)$ via a linear (one-vs-rest) decision boundary; the linear SVM maximises margin. Both assume that classes are approximately linearly separable in feature space. Probabilities for the SVM are obtained by Platt scaling.
+
+\subsection{Static and contextual embeddings}
+
+\textbf{Word2Vec} (skip-gram) learns fixed word vectors from local co-occurrence. Averaging word vectors yields a document embedding that ignores order; feeding the sequence into a BiLSTM restores order while still relying on corpus-trained static geometry.
+
+\textbf{DistilBERT} is pretrained with a masked language modelling (MLM) objective: predict masked tokens from context. Mean-pooling its token states produces a document vector, but MLM does not explicitly optimise sentence-level similarity or intent separation. Using DistilBERT as a \textbf{frozen} feature extractor therefore tests whether MLM geometry is already linearly useful for Banking77, without the confounding effect of end-to-end fine-tuning.
+
+\subsection{Sequence models}
+
+A \textbf{bidirectional LSTM} summarises left-to-right and right-to-left context. In the bonus pipeline it consumes Word2Vec embeddings of the token sequence, with packing enabled when the \texttt{padding} preprocess switch is on. This design attributes gains over mean pooling to sequence modelling rather than to a different word representation.
+
+\subsection{Evaluation metrics}
+
+\textbf{Accuracy} treats all examples equally. \textbf{Macro-averaged F1} averages per-class F1 and is appropriate for Banking77, where intents are imbalanced (35--187 training examples per class). \textbf{Brier score} and \textbf{expected calibration error (ECE)} assess whether predicted probabilities match empirical frequencies.

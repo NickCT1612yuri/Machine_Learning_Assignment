@@ -1,0 +1,164 @@
+\section{Experimental results}
+
+\subsection{Main comparison}
+
+\textbf{Expectation.} Under H1, TF-IDF should be strong but not necessarily dominant. Under H2--H4, DistilBERT should depend heavily on tokenization and padding; BiLSTM should outperform mean-pooled Word2Vec.
+
+All rows use \texttt{sw0\_tok1\_pad1\_neg0}. Bold marks the best Macro-F1.
+
+\begin{table}[H]
+\centering
+\caption{Main comparison on Banking77 (default preprocessing).}
+\small
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Method & Acc & Macro-F1 & Brier & ECE & Train (s) \\
+\midrule
+TF-IDF + MultinomialNB & 82.35 & 81.54 & 0.440 & 0.386 & 0.01 \\
+TF-IDF + LogReg & 88.62 & 88.65 & 0.315 & 0.329 & 2.10 \\
+TF-IDF + LinearSVC & 89.17 & \textbf{89.18} & 0.181 & 0.127 & 1.30 \\
+Word2Vec + GaussianNB & 63.17 & 63.10 & 0.704 & 0.346 & 0.01 \\
+Word2Vec + LogReg & 78.41 & 78.43 & 0.331 & 0.099 & 1.47 \\
+Word2Vec + LinearSVC & 74.61 & 74.43 & 0.440 & 0.250 & 20.12 \\
+DistilBERT + GaussianNB & 70.61 & 70.69 & 0.574 & 0.284 & 0.02 \\
+DistilBERT + LogReg & 87.32 & 87.29 & 0.205 & 0.072 & 0.67 \\
+DistilBERT + LinearSVC & 85.99 & 85.97 & 0.240 & 0.157 & 50.28 \\
+Word2Vec + BiLSTM (bonus) & 83.13 & 83.07 & 0.242 & 0.019 & 62.49 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{banking77/accuracy_f1_bars.png}
+\caption{Accuracy and Macro-F1 on Banking77.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth]{master_f1_heatmap.png}
+\caption{Macro-F1 heatmap of the default configuration.}
+\end{figure}
+
+\subsection{Traditional versus modern approaches}
+
+\begin{table}[H]
+\centering
+\caption{Best traditional vs.\ modern vs.\ bonus deep learning (Macro-F1).}
+\small
+\begin{tabular}{@{}llrl@{}}
+\toprule
+Best traditional & Best modern & Gap (pp) & Bonus DL \\
+\midrule
+TF-IDF + LinearSVC, 89.18 & DistilBERT + LogReg, 87.29 & \textbf{$-$1.89} & Word2Vec + BiLSTM, 83.07 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Interpretation.} On Banking77, a well-tuned sparse pipeline remains superior to a \emph{frozen} DistilBERT encoder under linear heads. This does not claim that Transformers are inherently unsuitable for intent detection; rather, it shows that MLM pretraining alone, without sentence-level contrastive training or task fine-tuning, does not guarantee better linear separability than TF-IDF bigrams on short, lexically overlapping queries. Mean-pooled Word2Vec is clearly inadequate (78.43 Macro-F1 at best). The BiLSTM recovers about 4.6 Macro-F1 points over Word2Vec + LogReg, confirming H4's emphasis on order, yet still trails TF-IDF + LinearSVC by about 6.1 points.
+
+\subsection{Preprocessing ablation}
+
+Each cell reports $\Delta$Macro-F1 $= \mathrm{F1}(\mathrm{flag}=\mathrm{True}) - \mathrm{F1}(\mathrm{flag}=\mathrm{False})$ in percentage points. Ablation models: TF-IDF + LogReg, DistilBERT + LogReg, Word2Vec + BiLSTM.
+
+\begin{table}[H]
+\centering
+\caption{One-flag-at-a-time preprocessing ablation ($\Delta$Macro-F1, percentage points).}
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Model & \texttt{stop\_word\_removal} & \texttt{tokenization} & \texttt{padding} & \texttt{negation\_marking} \\
+\midrule
+TF-IDF + LogReg & $-$4.05 & +1.42 & n/a & $-$0.04 \\
+DistilBERT + LogReg & $-$3.54 & \textbf{+14.37} & \textbf{+18.26} & +0.23 \\
+Word2Vec + BiLSTM & +0.72 & $-$0.80 & \textbf{+5.33} & \textbf{+4.13} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{banking77/preprocessing_ablation_heatmap.png}
+\caption{Preprocessing ablation heat map (blue = enabling the flag improves Macro-F1).}
+\end{figure}
+
+\textbf{Findings.} Stop-word removal supports H2: TF-IDF and DistilBERT lose 3.5--4.0 Macro-F1 points when function words are deleted. Subword tokenization and masked padding are essential for DistilBERT (+14.4 and +18.3 points), supporting H4. Negation marking yields +4.13 Macro-F1 for Word2Vec + BiLSTM with near-zero effect on TF-IDF and DistilBERT---consistent with H3.
+
+\subsection{Calibration}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{banking77/brier_calibration_vs_f1.png}
+\caption{Macro-F1 versus Brier score on Banking77.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\textwidth]{banking77/reliability_diagram.png}
+\caption{Reliability diagrams for selected models.}
+\end{figure}
+
+Multinomial Naive Bayes on TF-IDF reaches Macro-F1 81.54 with ECE 0.386---strong discrimination relative to Word2Vec, yet poorly calibrated. DistilBERT + LogReg achieves Macro-F1 87.29 with Brier 0.205 and ECE 0.072. BiLSTM is remarkably well calibrated (ECE 0.019) despite trailing TF-IDF in Macro-F1. These results reinforce that course evaluation must separate discrimination from probability quality.
+
+\subsection{Naive Bayes on sparse versus dense features}
+
+Multinomial Naive Bayes remains a nearly free baseline on sparse TF-IDF (81.54 Macro-F1). Gaussian Naive Bayes collapses on Word2Vec (63.10) and is only moderately better on DistilBERT (70.69), matching the theoretical warning about correlated dense coordinates and the independence assumption.
+
+\subsection{Bonus deep-learning pipeline}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{banking77/bilstm_loss.png}
+\caption{BiLSTM training dynamics (validation loss versus epochs).}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Word2Vec mean-pool vs.\ BiLSTM vs.\ best traditional/modern heads.}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Representation + head & Macro-F1 \\
+\midrule
+Word2Vec mean-pool + LogReg & 78.43 \\
+Word2Vec mean-pool + LinearSVC & 74.43 \\
+Word2Vec + BiLSTM & \textbf{83.07} \\
+TF-IDF + LinearSVC (traditional best) & 89.18 \\
+DistilBERT + LogReg (modern best) & 87.29 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Under matched Word2Vec embeddings, the BiLSTM clearly outperforms bag averaging. Gains are largest when padding/masking and negation marking are enabled (ablation). At this labelled-data scale, however, a sparse TF-IDF linear SVM remains the overall optimum---an empirical reminder that ``deep'' is not automatically better when the lexical signal is strong and the encoder is frozen.
+
+\subsection{Error and negation analysis}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\textwidth]{banking77/confusion_best.png}
+\caption{Confusion structure for the best model (TF-IDF + LinearSVC).}
+\end{figure}
+
+Frequent confusions cluster in near-synonymous intent families: identity verification pairs
+(\texttt{unable\_to\_verify\_identity} / \texttt{verify\_my\_identity} /
+\texttt{why\_verify\_identity}), exchange-rate variants, and top-up~/~transfer state distinctions
+(\texttt{pending\_top\_up} vs.\ \texttt{top\_up\_failed}; \texttt{pending\_transfer} vs.\
+\texttt{failed\_transfer}). These errors are semantically coherent: the models capture the topical
+domain but struggle with subtle transactional status.
+
+\begin{table}[H]
+\centering
+\caption{Accuracy on negated vs.\ non-negated test queries.}
+\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Method & Acc.\ with negation ($n=692$) & Acc.\ without ($n=2384$) & Gap \\
+\midrule
+TF-IDF + MultinomialNB & 77.46 & 83.77 & $-$6.31 \\
+TF-IDF + LinearSVC & 86.71 & 89.89 & $-$3.19 \\
+DistilBERT + LogReg & 83.82 & 88.34 & $-$4.52 \\
+Word2Vec + BiLSTM & 77.89 & 84.65 & $-$6.76 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Negated queries remain harder for nearly all models. Combined with the ablation gains of \texttt{negation\_marking} for BiLSTM (+4.13 Macro-F1), this supports H3: negation is a structural difficulty that lightweight scope marking can partially mitigate for static sequence models.

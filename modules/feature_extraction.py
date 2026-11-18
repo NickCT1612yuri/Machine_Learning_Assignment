@@ -3,12 +3,11 @@ Feature extraction with on-disk persistence in both .npy and .h5 (HDF5).
 
 Embedding types
 ---------------
-bow        CountVectorizer (sparse) + 30-d TruncatedSVD projection
-tfidf      sublinear TfidfVectorizer (sparse) + 30-d TruncatedSVD projection
-word2vec   skip-gram Word2Vec trained on train texts (300-d mean pool) + PCA-30;
-           also saves word2vec.kv for BiLSTM / TextCNN / SetFit reuse
-distilbert frozen distilbert-base-uncased, attention-masked mean pooling (768-d) + PCA-30
-bge_small  frozen BAAI/bge-small-en-v1.5, CLS pooling + L2 norm (384-d) + PCA-30
+bow        CountVectorizer (sparse) + 30-d TruncatedSVD (optional plug-in)
+tfidf      sublinear TfidfVectorizer (sparse) + 30-d TruncatedSVD
+word2vec   skip-gram Word2Vec on train texts (300-d mean pool) + PCA-30;
+           also saves word2vec.kv.npz for BiLSTM reuse
+distilbert frozen distilbert-base-uncased, masked mean pooling (768-d) + PCA-30
 
 Files written to features/<dataset>/<embedding>_<preprocess tag>/
 -----------------------------------------------------------------
@@ -18,7 +17,7 @@ X_train_pca30.npy, X_test_pca30.npy  30-d projection (SVD for sparse, PCA for de
 y_train.npy, y_test.npy              integer labels
 features.h5                          every array above in one HDF5 file
 meta.json                            settings used to build the features
-word2vec.kv                          gensim KeyedVectors (word2vec only)
+word2vec.kv.npz                      cached KeyedVectors (word2vec only)
 
 How the boolean preprocessing switches reach the extractors
 -----------------------------------------------------------
@@ -48,7 +47,6 @@ from sklearn.preprocessing import StandardScaler
 from modules.config import (
     BERT_BATCH_SIZE,
     BERT_MODEL,
-    BGE_MODEL,
     FEATURE_DIR,
     MAX_FEATURES,
     PCA_DIM,
@@ -60,7 +58,6 @@ from modules.utils import get_device
 SPARSE_TYPES = ("bow", "tfidf")
 DENSE_MODELS = {
     "distilbert": {"model_id": BERT_MODEL, "pooling": "mean", "normalize": False},
-    "bge_small": {"model_id": BGE_MODEL, "pooling": "cls", "normalize": True},
 }
 UNPADDED_MAX_LEN = 10
 

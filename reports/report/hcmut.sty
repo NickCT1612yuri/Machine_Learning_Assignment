@@ -1,0 +1,55 @@
+% HCMUT assignment report style (compatible with TeX Live basic + XeLaTeX).
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usetikzlibrary{arrows,backgrounds,calc}
+
+\def\thesislayout{%
+	\geometry{
+		a4paper,
+		left=30mm,
+		right=20mm,
+		top=30mm,
+		bottom=25mm,
+	}
+}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+
+\hypersetup{urlcolor=blue,linkcolor=black,citecolor=black,colorlinks=true}
+
+\AtBeginDocument{\renewcommand*\contentsname{Contents}}
+\AtBeginDocument{\renewcommand*\refname{References}}
+
+\setlength{\headheight}{42pt}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[L]{%
+ \begin{tabular}{rl}
+    \begin{picture}(25,15)(0,0)
+    \put(0,-8){\includegraphics[width=13mm, height=10mm]{Images/bachkhoa_logo.png}}
+   \end{picture}&
+	\begin{tabular}{l}
+		\textbf{\ttfamily Ho Chi Minh City University of Technology}\\
+		\textbf{\ttfamily Faculty of Computer Science and Engineering}
+	\end{tabular}
+ \end{tabular}%
+}
+\fancyhead[R]{}
+\fancyfoot{}
+\fancyfoot[L]{\scriptsize \ttfamily Machine Learning Assignment --- Task 2 (Banking77)}
+\fancyfoot[R]{\scriptsize \ttfamily Page~\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}

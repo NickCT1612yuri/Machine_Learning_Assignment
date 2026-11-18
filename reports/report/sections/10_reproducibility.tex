@@ -1,0 +1,24 @@
+\section{Reproducibility and deliverables}
+
+This submission follows Section~5 of the course assignment. The required directory layout is:
+\begin{verbatim}
+notebooks/     Colab front end (Runtime -> Run all)
+modules/       supporting Python package imported by the notebook
+reports/       PDF report, CSV tables, figures, collaboration evidence/
+features/      extracted embeddings (.npy / .npz / .h5)
+\end{verbatim}
+
+Additional details:
+\begin{itemize}
+  \item \textbf{Colab front-end.} \texttt{notebooks/text\_classification\_colab.ipynb} runs without mounting personal drives; Banking77 is fetched from a public Hugging Face link; dependencies install inside the notebook.
+  \item \textbf{Modules.} Code in \texttt{modules/} is imported by the notebook and by \texttt{main.py}.
+  \item \textbf{PDF report.} The present LaTeX document (\texttt{reports/report/main.pdf}): EDA, pipeline design, experiments, comparisons, analysis, work distribution.
+  \item \textbf{Feature artefacts.} \texttt{features/banking77/<embedding>\_<tag>/} with \texttt{.npy}, \texttt{.npz}, \texttt{.h5}, and \texttt{meta.json}.
+  \item \textbf{Tables and figures.} CSV summaries under \texttt{reports/}
+        (\texttt{comparison\_banking77.csv}, \texttt{master\_comparison.csv},
+        \texttt{eda\_summary.csv}, \texttt{errors\_banking77.csv}, \ldots);
+        figures under \texttt{reports/figures/banking77/} and \texttt{pipeline\_overview.png}.
+  \item \textbf{Command line.} \texttt{python main.py} (full Banking77 suite); \texttt{python main.py --quick} for a smoke test.
+  \item \textbf{Software.} Python~3.x, PyTorch, scikit-learn, transformers, datasets, NumPy Word2Vec training path.
+  \item \textbf{GitHub (encouraged).} Course metadata, member details, execution guide, and links to the report and Colab should appear in the repository README.
+\end{itemize}

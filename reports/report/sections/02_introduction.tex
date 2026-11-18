@@ -1,0 +1,25 @@
+\section{Introduction}
+
+\subsection{Motivation and assignment alignment}
+
+The Machine Learning course assignment requires students to apply theoretical knowledge to a full pipeline: exploratory data analysis (EDA), preprocessing, feature extraction, model training, and evaluation. Task~2 focuses on text data and mandates (i)~a traditional pipeline with configurable preprocessing and classifiers, (ii)~at least two feature extractors spanning lexical and modern embedding approaches, with embeddings saved as \texttt{.npy} or \texttt{.h5}, and (iii)~an EDA report plus a comparison of traditional and modern methods. An optional deep-learning pipeline earns bonus credit when compared against the traditional path.
+
+We concentrate on a single, demanding corpus---\textbf{Banking77}---so that every design choice can be motivated by EDA and interpreted in depth. Banking77 comprises 77 fine-grained online-banking intents. Many classes share content nouns (\textit{card}, \textit{transfer}, \textit{top-up}) and differ by function words, polarity, or transactional state (\textit{pending}, \textit{failed}, \textit{not received}). This regime stresses both sparse lexical models and frozen contextual encoders used without task-specific fine-tuning.
+
+\subsection{Research questions}
+
+\begin{enumerate}
+  \item \textbf{When do lexical features suffice for fine-grained intent?} Does TF-IDF with a linear classifier remain competitive with frozen Transformer embeddings on a 77-way problem?
+  \item \textbf{What does frozen DistilBERT contribute without fine-tuning?} Does masked-language pretraining alone yield linearly separable intent geometry under logistic regression or a linear SVM?
+  \item \textbf{How should preprocessing interact with representation?} Do stop-word removal, subword tokenization, padding/masking, and negation marking affect TF-IDF, frozen DistilBERT, and Word2Vec sequence models differently?
+  \item \textbf{What does a bonus BiLSTM add over mean-pooled Word2Vec?} Relative to bag averaging of static embeddings, how much does bidirectional sequence modelling recover on short banking queries?
+\end{enumerate}
+
+\subsection{Contributions}
+
+\begin{itemize}
+  \item A configurable traditional pipeline covering EDA, Boolean preprocessing, three embedding families, three classical classifier families, and calibrated evaluation (accuracy, Macro-F1, Brier score, ECE).
+  \item Persistent feature artefacts in \texttt{.npy}~/~\texttt{.h5} that feed identical classifiers across configurations.
+  \item A focused Banking77 study with one-flag preprocessing ablation and error~/~negation analysis.
+  \item A bonus Word2Vec + BiLSTM path that isolates the effect of order under a shared static embedding table.
+\end{itemize}

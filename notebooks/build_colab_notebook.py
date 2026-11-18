@@ -5,11 +5,6 @@ The notebook embeds every modules/*.py file, so when it is opened on Google Cola
 without the repository it can recreate the package itself (no Drive mount).
 
     python notebooks/build_colab_notebook.py
-    jupyter nbconvert --to notebook --execute --inplace \
-        --ExecutePreprocessor.timeout=-1 notebooks/text_classification_colab.ipynb
-
-    # after editing modules/ (or the conclusions) without re-running the notebook
-    python notebooks/build_colab_notebook.py --refresh-sources
 """
 
 import sys
@@ -22,19 +17,19 @@ OUT = ROOT / "notebooks" / "text_classification_colab.ipynb"
 
 GROUP_TABLE = """| Full name | Student ID | Email | Main responsibilities | Contribution |
 | --- | --- | --- | --- | --- |
-| [Member 1 full name] | [Student ID] | [member1@hcmut.edu.vn] | Data loading, boolean preprocessing, EDA, traditional features (BoW / TF-IDF), Naive Bayes / LogReg / SVM, ablation study, README | 50% |
-| [Member 2 full name] | [Student ID] | [member2@hcmut.edu.vn] | Word2Vec / DistilBERT / BGE-small, .npy / .h5 persistence, XGBoost, BiLSTM + TextCNN + SetFit 3x3, evaluation figures, report | 50% |"""
+| [Member 1 full name] | [Student ID] | [member1@hcmut.edu.vn] | Data loading, boolean preprocessing, EDA, TF-IDF, Naive Bayes / LogReg / SVM, ablation, README | 50% |
+| [Member 2 full name] | [Student ID] | [member2@hcmut.edu.vn] | Word2Vec / DistilBERT, .npy / .h5 persistence, bonus Word2Vec + BiLSTM, evaluation figures, report | 50% |"""
 
 
 CONCLUSIONS = """
 ## 7. Conclusions
 
-Numbers are Macro-F1 on the test sets of the run saved in this notebook (single seed 42). Cherry-pick headline rows for the PDF report after inspecting `reports/master_comparison.csv`.
+Numbers are Macro-F1 on the Banking77 test set from this notebook run (single seed 42).
 
-1. **Task regime still decides whether contextual representations pay off** (AG News vs Rotten Tomatoes / Banking77).
-2. **Preprocessing must match the task**: stop-word removal, tokenization, padding, and the new **negation marking** switch are ablated one at a time.
-3. **Static Word2Vec + BiLSTM/TextCNN** vs **frozen DistilBERT/BGE** vs **SetFit** covers classical, sequence, and few-shot Transformer fine-tuning under one configurable API (all 9 DL embedding x model cells are runnable).
-4. **XGBoost** replaces TabPFN as the nonlinear classical head on full sparse/dense features; PCA-30 + LogReg remains the projection control.
+1. **Fine-grained intent classification stresses lexical baselines**: TF-IDF remains strong, but frozen DistilBERT and sequence modelling test whether representation geometry separates overlapping intents.
+2. **Preprocessing is representation-dependent**: stop-word removal, tokenization, padding, and negation marking are ablated one at a time on TF-IDF + LogReg, DistilBERT + LogReg, and Word2Vec + BiLSTM.
+3. **Mean-pooled Word2Vec vs BiLSTM** isolates the value of order for short banking queries under a shared static embedding table.
+4. **Macro-F1 and calibration** (Brier, ECE) must be read together on a 77-way problem with class imbalance.
 """
 
 
@@ -81,7 +76,7 @@ print("project root:", ROOT)
 
 
 def refresh_sources():
-    """Update the embedded module sources and the conclusions in the executed notebook, keeping all outputs."""
+    """Update the embedded module sources and the conclusions, keeping outputs."""
     nb = nbf.read(OUT, as_version=4)
     found = set()
     for cell in nb.cells:
@@ -102,8 +97,8 @@ def build():
     cells = []
 
     cells.append(md(f"""
-# Configurable Text Classification Pipeline
-### From sparse lexical baselines to Word2Vec, frozen Transformers, XGBoost and SetFit
+# Configurable Text Classification Pipeline — Banking77
+### TF-IDF, Word2Vec, DistilBERT, classical classifiers, and bonus Word2Vec + BiLSTM
 
 **Course:** Machine Learning ([Course code, e.g. CO3117]) - Semester I, Academic Year 2026-2027
 **Faculty:** Computer Science and Engineering, Ho Chi Minh City University of Technology (HCMUT), VNU-HCM
@@ -113,26 +108,25 @@ def build():
 
 {GROUP_TABLE}
 
-**What this notebook does** (Runtime -> Run all, no Google Drive, every dataset downloaded from a public Hugging Face link):
+**What this notebook does** (Runtime -> Run all, no Google Drive; Banking77 downloaded from a public Hugging Face link):
 
 | Section | Content |
 | --- | --- |
 | 0 | install missing libraries, recreate `modules/` if the notebook is opened alone |
-| 1 | EDA on AG News, Rotten Tomatoes and Banking77 (word counts, length distribution, word frequencies, class balance) |
-| 2 | boolean preprocessing switches `stop_word_removal`, `tokenization`, `padding` and their ablation |
-| 3 | feature extraction: BoW, TF-IDF (+SVD-30), DistilBERT (768-d), BGE-small (384-d) (+PCA-30), saved as `.npy` **and** `.h5` |
-| 4 | classifiers: Naive Bayes, Logistic Regression, calibrated LinearSVC, XGBoost; accuracy, macro P/R/F1, Brier score, ECE |
-| 5 | deep learning 3x3: BiLSTM / TextCNN / SetFit x Word2Vec / DistilBERT / BGE-small |
-| 6 | cross-dataset synthesis, calibration, confusion matrices, error and negation analysis, conclusions |
+| 1 | EDA on Banking77 (word counts, length distribution, word frequencies, class balance) |
+| 2 | boolean preprocessing switches and one-flag-at-a-time ablation |
+| 3 | feature extraction: TF-IDF, Word2Vec, DistilBERT, saved as `.npy` and `.h5` |
+| 4 | classifiers: Naive Bayes, Logistic Regression, calibrated LinearSVC |
+| 5 | bonus deep learning: Word2Vec + BiLSTM |
+| 6 | comparison tables, calibration, confusion, error and negation analysis, conclusions |
 
-All logic lives in the `modules/` package; the notebook only calls it, so the same code path is used by `python main.py`.
+All logic lives in `modules/`; the notebook calls the same code path as `python main.py`.
 """))
 
     cells.append(md("""
 ## 0. Setup
 
-The first cell installs only the libraries that are missing (Colab already ships `torch`, `transformers`, `pandas`, `scikit-learn`).
-The second cell finds the `modules/` package: it uses the repository checkout if present, otherwise clones the GitHub repository (when `REPO_URL` is set) or writes the module files embedded in this notebook. A GPU runtime (T4) is recommended; everything also runs on CPU or Apple MPS.
+The first cell installs only missing libraries. The second finds `modules/`: repository checkout if present, otherwise clones `REPO_URL` or writes the embedded module files. A GPU runtime (T4) is recommended; CPU / MPS also work.
 """))
 
     cells.append(code("""
@@ -142,8 +136,6 @@ REQUIRED = {
     "numpy": "numpy", "pandas": "pandas", "matplotlib": "matplotlib", "seaborn": "seaborn",
     "sklearn": "scikit-learn", "scipy": "scipy", "h5py": "h5py", "torch": "torch",
     "transformers": "transformers", "datasets": "datasets",
-    "sentence_transformers": "sentence-transformers", "setfit": "setfit",
-    "xgboost": "xgboost",
 }
 missing = [pip for module, pip in REQUIRED.items() if importlib.util.find_spec(module) is None]
 if missing:
@@ -178,20 +170,17 @@ seed_everything(42)
 print("device:", get_device())
 for name in DATASET_ORDER:
     cfg = DATASET_REGISTRY[name]
-    print(f"{cfg['title']:16s} https://huggingface.co/datasets/{cfg['hf_id']}  "
-          f"train cap={cfg['max_train']}, test cap={cfg['max_test']}")
+    print(f"{cfg['title']:16s} https://huggingface.co/datasets/{cfg['hf_id']}")
 """))
 
     cells.append(md("""
 ## 1. Exploratory data analysis
 
-| Dataset (Hugging Face) | Task | Classes | Split used | Role in the comparison |
+| Dataset (Hugging Face) | Task | Classes | Split used | Role |
 | --- | --- | --- | --- | --- |
-| `fancyzhx/ag_news` | news topic | 4 | 10,000 / 2,000 (stratified sample of the official split) | lexical regime: topic keywords separate the classes |
-| `cornell-movie-review-data/rotten_tomatoes` | sentence sentiment | 2 | 8,530 / 1,066 (official) | compositional regime: short critic sentences, negation, irony |
-| `mteb/banking77` | customer intent | 77 | 9,993 / 3,076 (official) | high-cardinality regime: 77 intents sharing the same nouns |
+| `mteb/banking77` | online-banking customer intent | 77 | 9,993 / 3,076 (official) | fine-grained intents that share nouns and differ by function words / negation |
 
-For each dataset we report the class balance, word-count statistics (mean, std, median, 95th / 99th percentile), the vocabulary size with and without stop words, and the top-15 words with and without stop words. The 95th percentile is the padding cut-off used later by the neural models.
+We report class balance, word-count statistics, vocabulary size with and without stop words, and top-15 words. The 95th percentile length is the padding cut-off for DistilBERT and BiLSTM.
 """))
 
     cells.append(code("""
@@ -206,12 +195,12 @@ display(eda.set_index("dataset").T)
 
 | Switch | `False` | `True` |
 | --- | --- | --- |
-| `stop_word_removal` | keep every word, including negations (*not, no, never*) and prepositions (*into, from*) | drop scikit-learn's `ENGLISH_STOP_WORDS` from the text |
-| `tokenization` | plain whitespace split: unigrams for BoW/TF-IDF, whole-word lookup for Transformers | regex words + bigrams for BoW/TF-IDF, WordPiece for Transformers |
-| `padding` | truncate to 10 tokens and pool / recur over padding without a mask | pad/truncate to the 95th-percentile length and mask padding |
-| `negation_marking` | leave tokens unchanged | join negation cues with the next word (`not good` -> `not_good`) before stop-word removal |
+| `stop_word_removal` | keep every word | drop scikit-learn `ENGLISH_STOP_WORDS` |
+| `tokenization` | whitespace unigrams / whole-word lookup | bigrams for TF-IDF; WordPiece for DistilBERT |
+| `padding` | truncate to 10 tokens; no masking | pad/truncate to 95th-percentile length with masks |
+| `negation_marking` | unchanged | join negation cues with the next word (`not arrived` -> `not_arrived`) |
 
-The default (main) configuration is `sw0_tok1_pad1_neg0`. The ablation flips **one switch at a time** for TF-IDF + LogReg, BGE-small + LogReg and Word2Vec + BiLSTM.
+Default main configuration: `sw0_tok1_pad1_neg0`. Ablation flips **one switch at a time** for TF-IDF + LogReg, DistilBERT + LogReg, and Word2Vec + BiLSTM.
 """))
 
     cells.append(code("""
@@ -233,15 +222,13 @@ for name in DATASET_ORDER:
     cells.append(md("""
 ## 3. Feature extraction (saved as `.npy` and `.h5`)
 
-| Key | Family | Representation | 30-d projection |
-| --- | --- | --- | --- |
-| `bow` | traditional | CountVectorizer, up to 25,000 uni+bigrams, `min_df=2` (sparse `.npz`) | TruncatedSVD(30) |
-| `tfidf` | traditional | sublinear TF-IDF, same vocabulary settings (sparse `.npz`) | TruncatedSVD(30) |
-| `word2vec` | static | skip-gram Word2Vec on train texts, mean-pooled 300-d (+ `word2vec.kv` for DL) | StandardScaler + PCA(30) |
-| `distilbert` | modern | frozen `distilbert-base-uncased`, attention-masked mean pooling, 768-d | StandardScaler + PCA(30) |
-| `bge_small` | modern | frozen `BAAI/bge-small-en-v1.5`, CLS pooling + L2 normalisation, 384-d | StandardScaler + PCA(30) |
+| Key | Family | Representation |
+| --- | --- | --- |
+| `tfidf` | traditional | sublinear TF-IDF, uni+bigrams, `min_df=2` (sparse `.npz`) |
+| `word2vec` | static | skip-gram on train texts, mean-pooled 300-d (+ `word2vec.kv.npz` for BiLSTM) |
+| `distilbert` | modern | frozen `distilbert-base-uncased`, attention-masked mean pooling, 768-d |
 
-Everything is fit on the training split only. Each folder `features/<dataset>/<embedding>_<tag>/` holds `X_train.npy`, `X_test.npy` (dense) or `X_*_sparse.npz` (sparse), `X_*_pca30.npy`, `y_*.npy`, a single `features.h5` with the same arrays, and `meta.json`. The classifiers in Section 4 read these files.
+Fit on the training split only. Each folder `features/banking77/<embedding>_<tag>/` holds dense `.npy` or sparse `.npz`, optional 30-d projections, labels, `features.h5`, and `meta.json`.
 """))
 
     cells.append(code("""
@@ -255,8 +242,7 @@ summary = files.groupby(["dataset", "folder"]).agg(files=("file", "count"), size
 display(summary)
 print(f"{len(files)} feature files, {files['size_mb'].sum():.1f} MB in {FEATURE_DIR}")
 
-# The .h5 copy holds exactly the same arrays as the .npy files.
-folder = FEATURE_DIR / "rotten_tomatoes" / "bge_small_sw0_tok1_pad1_neg0"
+folder = FEATURE_DIR / "banking77" / "distilbert_sw0_tok1_pad1_neg0"
 h5 = load_h5_features(folder / "features.h5")
 print("h5 keys:", sorted(k for k in h5 if k != "meta"))
 print("X_train.npy == features.h5['X_train']:", np.array_equal(np.load(folder / "X_train.npy"), h5["X_train"]))
@@ -265,14 +251,13 @@ print("X_train.npy == features.h5['X_train']:", np.array_equal(np.load(folder / 
     cells.append(md("""
 ## 4. Classifiers on the saved features
 
-| Classifier | Sparse input (BoW / TF-IDF) | Dense input (embeddings) |
+| Classifier | Sparse input (TF-IDF) | Dense input (embeddings) |
 | --- | --- | --- |
 | Naive Bayes | `MultinomialNB(alpha=0.5)` | `GaussianNB()` |
-| Logistic Regression | `LogisticRegression(C=2.0, lbfgs, class_weight="balanced")` | StandardScaler + same |
-| Linear SVM | `CalibratedClassifierCV(LinearSVC(C=1.0), cv=3, sigmoid)` (Platt scaling gives probabilities) | L2 normaliser + same |
-| XGBoost | `XGBClassifier` (hist, multi:softprob) on full features | same on dense / Word2Vec / Transformer vectors |
+| Logistic Regression | `LogisticRegression(C=2.0, balanced)` | StandardScaler + same |
+| Linear SVM | calibrated `LinearSVC(C=1.0)` (Platt) | L2 Normalizer + same |
 
-The "(PCA-30) + LogReg" rows use the 30-d projection as a control. Metrics: accuracy, macro precision / recall / F1, multiclass Brier score and expected calibration error (ECE).
+Metrics: accuracy, macro precision / recall / F1, multiclass Brier score, ECE.
 """))
 
     cells.append(code("""
@@ -284,11 +269,9 @@ for name in DATASET_ORDER:
 """))
 
     cells.append(md("""
-## 5. Deep-learning pipeline (3 models x 3 embedding backends)
+## 5. Bonus deep-learning pipeline (Word2Vec + BiLSTM)
 
-* **BiLSTM** / **TextCNN** over Word2Vec (trainable lookup), or frozen DistilBERT / BGE token hidden states.
-* **SetFit** few-shot contrastive fine-tuning: native BGE-small, DistilBERT SentenceTransformer adapter, Word2Vec mean-pool adapter (all three runnable for API completeness).
-* Shots: 16 per class when classes <= 10, else 8 (Banking77).
+A bidirectional LSTM over the same skip-gram Word2Vec table used for mean-pooled document vectors. Packing / masking follows the `padding` preprocess switch. Early stopping uses a stratified 10% validation split of the training set.
 """))
 
     cells.append(code("""
@@ -305,7 +288,7 @@ for name in DATASET_ORDER:
     cells.append(md("""
 ## 6. Results, calibration and error analysis
 
-For every dataset: the full comparison table, Accuracy / Macro-F1 bars, Brier score vs Macro-F1, a reliability diagram, the ablation heat map, the confusion matrix of the best model, its most frequent confusions, and the accuracy on test documents with vs without a negation word.
+Accuracy / Macro-F1 bars, Brier vs Macro-F1, reliability diagram, ablation heat map, confusion matrix of the best model, frequent confusions, and accuracy on negated vs non-negated test queries.
 """))
 
     cells.append(code("""

@@ -1,0 +1,25 @@
+\section{Discussion}
+
+\subsection{Advantages and limitations by method family}
+
+\begin{table}[H]
+\centering
+\caption{Advantages and limitations by method family.}
+\small
+\begin{tabular}{@{}p{3.4cm}p{5.5cm}p{5.5cm}@{}}
+\toprule
+Approach & Advantages & Limitations \\
+\midrule
+TF-IDF + linear model & Best Banking77 Macro-F1; fast; interpretable bigrams & Sensitive to stop-word removal; confuses near-synonymous intents \\
+Multinomial NB & Strong sparse baseline; millisecond training & Poor calibration (ECE 0.39); weaker on overlapping intents \\
+Word2Vec (mean-pool) & Inexpensive dense baseline; reusable for BiLSTM & Loses order; weak under linear heads on Banking77 \\
+LogReg / LinearSVC & Robust discrimination; Platt-calibrated SVM probabilities & Fixed regularisation; SVM slower on high-dim dense $\times$ many classes \\
+Frozen DistilBERT (MLM) & Strong when tokenized and padded correctly; good LogReg calibration & Trails TF-IDF without fine-tuning; collapses if padding/tokenization wrong \\
+Word2Vec + BiLSTM & Recovers order; excellent ECE; benefits from negation marking & Trails TF-IDF; longer training; single-seed variance \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Learning outcomes relative to course concepts}
+
+The experiments confirm several textbook predictions and qualify others. The Naive Bayes independence assumption remains useful for sparse lexical features but fails as a probability model on dense embeddings. Margin-based linear classifiers excel when the feature space already encodes discriminative $n$-grams (TF-IDF). Transfer learning via a \emph{frozen} MLM encoder is not automatically superior to classical features on short, fine-grained intents---task structure and fine-tuning matter. Sequence modelling over static embeddings improves upon bag averaging but does not close the gap to TF-IDF here. Finally, evaluation must include calibration: BiLSTM's low ECE coexists with lower Macro-F1 than TF-IDF + LinearSVC.
