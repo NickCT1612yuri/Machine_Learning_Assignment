@@ -7,31 +7,29 @@
 \contentsline {section}{\numberline {3}Theoretical background}{5}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Lexical representations}{5}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Classical classifiers}{5}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Static and contextual embeddings}{5}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Sequence models}{5}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.3}Frozen sentence embeddings}{5}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Convolutional sequence models}{5}{subsection.3.4}%
 \contentsline {subsection}{\numberline {3.5}Evaluation metrics}{5}{subsection.3.5}%
 \contentsline {section}{\numberline {4}Datasets and exploratory data analysis}{6}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Dataset}{6}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Descriptive statistics}{6}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.1}Corpora}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Descriptive contrast}{6}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Hypotheses derived from EDA}{7}{subsection.4.3}%
 \contentsline {section}{\numberline {5}Methodology}{8}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Overview of the traditional and bonus pipelines}{8}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Preprocessing}{8}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.1}Pipeline overview}{8}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Preprocessing and configuration}{8}{subsection.5.2}%
 \contentsline {subsection}{\numberline {5.3}Feature extraction and persistence}{9}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Classical classifiers}{9}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Bonus deep-learning model}{10}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Evaluation protocol}{10}{subsection.5.6}%
-\contentsline {section}{\numberline {6}Experimental results}{10}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Main comparison}{10}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Traditional versus modern approaches}{11}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Preprocessing ablation}{12}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}Calibration}{13}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}Naive Bayes on sparse versus dense features}{14}{subsection.6.5}%
-\contentsline {subsection}{\numberline {6.6}Bonus deep-learning pipeline}{14}{subsection.6.6}%
-\contentsline {subsection}{\numberline {6.7}Error and negation analysis}{15}{subsection.6.7}%
-\contentsline {section}{\numberline {7}Discussion}{16}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Advantages and limitations by method family}{16}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Learning outcomes relative to course concepts}{16}{subsection.7.2}%
-\contentsline {section}{\numberline {8}Conclusions}{16}{section.8}%
-\contentsline {section}{\numberline {9}Work distribution}{17}{section.9}%
-\contentsline {section}{\numberline {10}Reproducibility and deliverables}{17}{section.10}%
+\contentsline {subsection}{\numberline {5.4}Classical classifiers and selection}{9}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Bonus TextCNN}{9}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Evaluation protocol}{9}{subsection.5.6}%
+\contentsline {section}{\numberline {6}Experimental results}{9}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Main comparison across corpora}{10}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Traditional versus modern versus TextCNN}{10}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Calibration}{11}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Negation split}{11}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Error snapshots}{11}{subsection.6.5}%
+\contentsline {section}{\numberline {7}Discussion}{12}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Advantages and limitations by method family}{12}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Learning outcomes relative to course concepts}{12}{subsection.7.2}%
+\contentsline {section}{\numberline {8}Conclusions}{12}{section.8}%
+\contentsline {section}{\numberline {9}Work distribution}{13}{section.9}%
+\contentsline {section}{\numberline {10}Reproducibility and deliverables}{13}{section.10}%

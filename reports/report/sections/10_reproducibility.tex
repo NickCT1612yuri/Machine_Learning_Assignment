@@ -1,24 +1,19 @@
 \section{Reproducibility and deliverables}
 
-This submission follows Section~5 of the course assignment. The required directory layout is:
+This submission follows Section~5 of the course assignment. The working layout is:
 \begin{verbatim}
 notebooks/     Colab front end (Runtime -> Run all)
-modules/       supporting Python package imported by the notebook
-reports/       PDF report, CSV tables, figures, collaboration evidence/
-features/      extracted embeddings (.npy / .npz / .h5)
+modules/       assignment_pipeline.py (sole public path); _legacy/ archived
+reports/       LaTeX sources (reports/report/), figures, evidence/
+outputs/       regenerated features and per-dataset CSV/JSON/PNG
 \end{verbatim}
 
 Additional details:
 \begin{itemize}
-  \item \textbf{Colab front-end.} \texttt{notebooks/text\_classification\_colab.ipynb} runs without mounting personal drives; Banking77 is fetched from a public Hugging Face link; dependencies install inside the notebook.
-  \item \textbf{Modules.} Code in \texttt{modules/} is imported by the notebook and by \texttt{main.py}.
-  \item \textbf{PDF report.} The present LaTeX document (\texttt{reports/report/main.pdf}): EDA, pipeline design, experiments, comparisons, analysis, work distribution.
-  \item \textbf{Feature artefacts.} \texttt{features/banking77/<embedding>\_<tag>/} with \texttt{.npy}, \texttt{.npz}, \texttt{.h5}, and \texttt{meta.json}.
-  \item \textbf{Tables and figures.} CSV summaries under \texttt{reports/}
-        (\texttt{comparison\_banking77.csv}, \texttt{master\_comparison.csv},
-        \texttt{eda\_summary.csv}, \texttt{errors\_banking77.csv}, \ldots);
-        figures under \texttt{reports/figures/banking77/} and \texttt{pipeline\_overview.png}.
-  \item \textbf{Command line.} \texttt{python main.py} (full Banking77 suite); \texttt{python main.py --quick} for a smoke test.
-  \item \textbf{Software.} Python~3.x, PyTorch, scikit-learn, transformers, datasets, NumPy Word2Vec training path.
-  \item \textbf{GitHub (encouraged).} Course metadata, member details, execution guide, and links to the report and Colab should appear in the repository README.
+  \item \textbf{Colab front-end.} \texttt{notebooks/text\_classification\_colab.ipynb} embeds the current pipeline; regenerate with \texttt{python notebooks/build\_colab\_notebook.py} after code edits. No personal Drive mount.
+  \item \textbf{Modules.} Public API: \texttt{REGISTRY}, \texttt{run\_dataset}, \texttt{make\_report} from \texttt{modules/assignment\_pipeline.py}.
+  \item \textbf{PDF report.} This LaTeX document (\texttt{reports/report/main.pdf}), rebuilt with \texttt{make} after syncing figures/tables from \texttt{outputs/full/}.
+  \item \textbf{Feature artefacts.} \texttt{outputs/full/features/<dataset>/tfidf.h5}, \texttt{bge\_*.npy}, \texttt{y\_*.npy}.
+  \item \textbf{Command line.} \texttt{python -m unittest tests\_pipeline -v}; \texttt{python main.py --quick}; \texttt{python main.py}.
+  \item \textbf{Software.} Python~3.x, PyTorch, scikit-learn, transformers, datasets, h5py (see \texttt{requirements.txt}).
 \end{itemize}

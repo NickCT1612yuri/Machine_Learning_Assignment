@@ -2,24 +2,20 @@
 
 \subsection{Lexical representations}
 
-\textbf{TF-IDF} reweights term frequencies by inverse document frequency so that rare, discriminative words receive higher weight. \textbf{$n$-grams} (here, unigrams and bigrams) partially recover local order (\textit{not arrived}, \textit{top up}). These features are sparse, interpretable, and effective when class labels correlate with specific lexical patterns---even when those patterns are short phrases rather than single topic keywords.
+\textbf{TF-IDF} reweights term frequencies by inverse document frequency so that rare, discriminative words receive higher weight. Unigrams and bigrams partially recover local order (\textit{not good}, \textit{top up}). Sparse lexical features are effective when labels correlate with specific word patterns---as in news topic classification---and weaker when meaning depends on composition or near-synonymous intent phrasing.
 
 \subsection{Classical classifiers}
 
-\textbf{Multinomial Naive Bayes} models $P(x \mid y)$ under a conditional independence assumption over features. On sparse word counts this assumption is often useful; on dense, highly correlated embedding dimensions, Gaussian Naive Bayes tends to over-count evidence and produce overconfident posteriors.
+\textbf{Multinomial Naive Bayes} models $P(x \mid y)$ under conditional independence of features. On sparse word counts this assumption is often useful. \textbf{Logistic regression} and the \textbf{linear SVM} are discriminative models that learn linear decision boundaries (one-vs-rest for multiclass). Logistic regression yields class probabilities directly; LinearSVC does not, so Brier/ECE are reported only when probability estimates are available.
 
-\textbf{Logistic regression} and the \textbf{linear SVM} are discriminative models. Logistic regression estimates $P(y \mid x)$ via a linear (one-vs-rest) decision boundary; the linear SVM maximises margin. Both assume that classes are approximately linearly separable in feature space. Probabilities for the SVM are obtained by Platt scaling.
+\subsection{Frozen sentence embeddings}
 
-\subsection{Static and contextual embeddings}
+\textbf{BGE-small} (\texttt{BAAI/bge-small-en-v1.5}) is a compact Transformer trained with contrastive objectives for sentence similarity. We use it as a \textbf{frozen} encoder: CLS pooling and L2 normalisation produce fixed vectors; only a logistic-regression head is trained on the fit split. This tests whether contrastive sentence geometry is linearly useful without task-specific fine-tuning---unlike masked-language models used as bag features without sentence-level objectives.
 
-\textbf{Word2Vec} (skip-gram) learns fixed word vectors from local co-occurrence. Averaging word vectors yields a document embedding that ignores order; feeding the sequence into a BiLSTM restores order while still relying on corpus-trained static geometry.
+\subsection{Convolutional sequence models}
 
-\textbf{DistilBERT} is pretrained with a masked language modelling (MLM) objective: predict masked tokens from context. Mean-pooling its token states produces a document vector, but MLM does not explicitly optimise sentence-level similarity or intent separation. Using DistilBERT as a \textbf{frozen} feature extractor therefore tests whether MLM geometry is already linearly useful for Banking77, without the confounding effect of end-to-end fine-tuning.
-
-\subsection{Sequence models}
-
-A \textbf{bidirectional LSTM} summarises left-to-right and right-to-left context. In the bonus pipeline it consumes Word2Vec embeddings of the token sequence, with packing enabled when the \texttt{padding} preprocess switch is on. This design attributes gains over mean pooling to sequence modelling rather than to a different word representation.
+A \textbf{TextCNN} learns word embeddings and multi-width convolutional filters end-to-end from scratch. Filters of widths 3, 4 and 5 capture local $n$-gram patterns; max-pooling and dropout regularise the classifier. Compared with a BiLSTM over pretrained Word2Vec, TextCNN is lighter to train and easier to interpret as a neural bag-of-local-patterns model. It is our optional deep-learning baseline.
 
 \subsection{Evaluation metrics}
 
-\textbf{Accuracy} treats all examples equally. \textbf{Macro-averaged F1} averages per-class F1 and is appropriate for Banking77, where intents are imbalanced (35--187 training examples per class). \textbf{Brier score} and \textbf{expected calibration error (ECE)} assess whether predicted probabilities match empirical frequencies.
+\textbf{Accuracy} treats all examples equally. \textbf{Macro-averaged F1} averages per-class F1 and is appropriate when class sizes differ (especially Banking77). When probabilities exist, the multiclass \textbf{Brier score} is the mean squared error between the predicted probability vector and the one-hot label; \textbf{ECE} is the top-label expected calibration error over equal-width confidence bins. \textbf{Negation analysis} reports accuracy on texts matching simple English negation cues versus the remainder.

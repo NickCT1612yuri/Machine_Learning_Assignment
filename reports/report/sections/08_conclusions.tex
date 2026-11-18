@@ -1,10 +1,10 @@
 \section{Conclusions}
 
 \begin{enumerate}
-  \item \textbf{On Banking77, traditional TF-IDF + LinearSVC is the strongest configuration studied} (89.18 Macro-F1), ahead of frozen DistilBERT + LogReg (87.29) and Word2Vec + BiLSTM (83.07).
-  \item \textbf{Preprocessing is representation-dependent.} Stop-word removal harms TF-IDF and DistilBERT. Subword tokenization and masked padding are critical for DistilBERT (+14.4~/~+18.3 Macro-F1). Negation marking improves Word2Vec + BiLSTM by +4.13 Macro-F1.
-  \item \textbf{Bonus BiLSTM occupies a clear niche} over mean-pooled Word2Vec (+4.6 Macro-F1 vs.\ LogReg) with strong calibration, but does not replace sparse linear models on this corpus.
-  \item \textbf{Errors concentrate in near-synonymous intent families}, and negated queries remain harder across methods.
+  \item \textbf{Cross-corpus contrast matters.} TF-IDF, frozen BGE-small, and TextCNN change relative ranking across AG News, Rotten Tomatoes, and Banking77; no single family dominates all three under our protocol.
+  \item \textbf{Traditional vs.\ modern.} Sparse TF-IDF remains highly competitive on lexical topic classification, while frozen contrastive embeddings are especially useful for compositional sentiment and fine-grained intent.
+  \item \textbf{Bonus TextCNN} provides an end-to-end neural baseline with probability estimates, but---trained from scratch---trails stronger feature+linear pipelines when labelled data per class is limited.
+  \item \textbf{Brier, ECE, and negation} add academic depth beyond Macro-F1 and highlight reliability gaps on negated queries.
 \end{enumerate}
 
-\textbf{Limitations and future work.} Results use a single seed and fixed hyperparameters. DistilBERT is frozen; end-to-end fine-tuning or contrastive sentence encoders would likely change the traditional--modern ranking. The \texttt{padding=False} condition jointly disables length and masking.
+\textbf{Limitations and future work.} Results use a single seed and one validation split without confidence intervals. BGE is frozen; task-specific fine-tuning or SetFit-style adaptation would likely change rankings. TextCNN hyperparameters were not exhaustively tuned. Older Banking77-only artefacts under \texttt{reports/} (if present) are historical and are not claimed as results of this pipeline.

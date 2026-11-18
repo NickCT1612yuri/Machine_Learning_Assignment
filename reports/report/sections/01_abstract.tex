@@ -1,9 +1,9 @@
 \section*{Abstract}
 \addcontentsline{toc}{section}{Abstract}
 
-This report presents a complete traditional machine learning pipeline for text classification on the Banking77 intent-detection benchmark, together with a bonus deep-learning comparison, as required by Task~2 of the Machine Learning course assignment. Configurable preprocessing (stop-word removal, tokenization, padding, and optional negation marking) is combined with three feature families---TF-IDF (uni- and bigrams), mean-pooled Word2Vec, and frozen DistilBERT---whose representations are persisted as \texttt{.npy}~/~\texttt{.h5} files and classified with Naive Bayes, logistic regression, and a calibrated linear SVM. A bonus bidirectional LSTM over the same Word2Vec table evaluates whether sequence modelling recovers information discarded by bag averaging.
+This report presents a reproducible text-classification pipeline for Task~2 of the Machine Learning course assignment. We study three public corpora that stress different aspects of text modelling: \textbf{AG News} (topic classification with strong lexical cues), \textbf{Rotten Tomatoes} (binary sentiment with compositional polarity), and \textbf{Banking77} (77-way fine-grained banking intents). The traditional path uses TF-IDF with Multinomial Naive Bayes, logistic regression, or a linear SVM. The modern path uses frozen BGE-small sentence embeddings with logistic regression. The optional deep-learning path is a TextCNN trained end-to-end from random word embeddings. Features are persisted as sparse HDF5 (TF-IDF) and dense NumPy arrays (BGE); validation Macro-F1 selects configurations, and each family is evaluated once on the held-out test set.
 
-On the official Banking77 test split, sparse TF-IDF with a linear SVM attains the highest Macro-F1 (89.18), outperforming frozen DistilBERT + logistic regression (87.29). Mean-pooled Word2Vec is substantially weaker under linear heads (best 78.43 Macro-F1), while Word2Vec + BiLSTM recovers to 83.07 Macro-F1, illustrating the value of order for short queries. Preprocessing ablations show that stop-word removal harms both TF-IDF and DistilBERT, that subword tokenization and masked padding are critical for DistilBERT (+14.4 and +18.3 Macro-F1 points), and that negation marking improves BiLSTM by +4.1 Macro-F1. Calibration metrics further separate discrimination from probability quality. The study links these outcomes to course concepts: conditional independence, margin-based linear classification, static versus contextual embeddings, and sequence models.
+Beyond discrimination metrics we report multiclass Brier scores, expected calibration error (ECE), and accuracy on examples with simple English negation cues versus the remainder. Across the three corpora, ranking among TF-IDF, BGE, and TextCNN shifts with task structure: lexical topic classification favours sparse models, compositional sentiment benefits from contrastive embeddings, and fine-grained intent amplifies the value of pretrained sentence geometry---while a small TextCNN remains a useful but data-hungry baseline. The narrative links these outcomes to conditional independence, margin-based linear classification, frozen transfer, and convolutional sequence models.
 
 \section{Course and group information}
 
@@ -16,10 +16,11 @@ University / Faculty & HCMUT, VNU-HCM --- Faculty of Computer Science and Engine
 Course & Machine Learning, [Course code, e.g.\ CO3117] \\
 Semester & Semester I, Academic Year 2026--2027 \\
 Instructor & [Instructor full name and title] \\
-Topic & Task 2 --- Text Data (+ bonus Word2Vec + BiLSTM) \\
-Dataset & Banking77 (\texttt{mteb/banking77}) \\
+Topic & Task 2 --- Text Data (+ bonus TextCNN) \\
+Datasets & AG News, Rotten Tomatoes, Banking77 \\
 Colab notebook & \texttt{notebooks/text\_classification\_colab.ipynb} \\
-Extracted features & \texttt{features/banking77/} (\texttt{.npy}, \texttt{.npz}, \texttt{.h5}) \\
+Entrypoint & \texttt{modules/assignment\_pipeline.py} via \texttt{main.py} \\
+Extracted features & \texttt{outputs/full/features/<dataset>/} (\texttt{.npy}, \texttt{.h5}) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -30,7 +31,7 @@ Extracted features & \texttt{features/banking77/} (\texttt{.npy}, \texttt{.npz},
 \toprule
 Full name & Student ID & Email \\
 \midrule
-Dương Minh Nhật & 2452889 & \texttt{nhat.duongminhnickct@hcmut.edu.vn} \\
+Dương Minh Nhật & 2452889 & \texttt{[member1@hcmut.edu.vn]} \\
 Nguyễn Trọng Nhân & 2452883 & \texttt{[member2@hcmut.edu.vn]} \\
 \bottomrule
 \end{tabular}

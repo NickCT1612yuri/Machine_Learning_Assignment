@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.11.15)  18 NOV 2026 22:30
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.11.15)  19 NOV 2026 00:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -907,18 +907,18 @@ LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <12> not available
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
  [2]) (./sections/01_abstract.tex
-Overfull \hbox (17.60596pt too wide) in paragraph at lines 6--7
-\TU/TimesNewRoman(0)/m/n/12 F1 (89.18), outperforming frozen DistilBERT + logis
-tic regression (87.29). Mean-pooled Word2Vec
+Overfull \hbox (9.11606pt too wide) in paragraph at lines 6--7
+\TU/TimesNewRoman(0)/m/n/12 trastive embeddings, and fine-grained intent amplif
+ies the value of pretrained sentence geometry—
  []
 
 ) (./sections/02_introduction.tex
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
  [3]
-Overfull \hbox (6.70749pt too wide) in paragraph at lines 21--22
-\TU/TimesNewRoman(0)/m/n/12 ding families, three classical classifier families,
- and calibrated evaluation (accuracy, Macro-
+Overfull \hbox (5.46638pt too wide) in paragraph at lines 24--25
+[]\TU/TimesNewRoman(0)/m/n/12 An HCMUT-formatted LaTeX report whose numbers are
+ taken from regenerated \TU/lmtt/m/n/12 outputs/
  []
 
 ) (./sections/03_theory.tex
@@ -928,192 +928,84 @@ File: Images/bachkhoa_logo.png Graphic file (type bmp)
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
  [5]
-File: ../figures/banking77/class_balance.png Graphic file (type bmp)
-<../figures/banking77/class_balance.png>
-File: ../figures/banking77/length_hist.png Graphic file (type bmp)
-<../figures/banking77/length_hist.png>
-File: Images/bachkhoa_logo.png Graphic file (type bmp)
-<Images/bachkhoa_logo.png>
- [6]
-File: ../figures/banking77/top_words_comparison.png Graphic file (type bmp)
-<../figures/banking77/top_words_comparison.png>
-File: Images/bachkhoa_logo.png Graphic file (type bmp)
-<Images/bachkhoa_logo.png>
- [7])
-(./sections/05_methodology.tex
-Overfull \hbox (57.28009pt too wide) in paragraph at lines 5--6
-\TU/TimesNewRoman(0)/m/n/12 + BiLSTM on the same preprocessed text). Configurat
-ions are encoded by dataclasses (\TU/lmtt/m/n/12 PreprocessConfig\TU/TimesNewRo
-man(0)/m/n/12 ,
- []
-
-File: ../figures/pipeline_overview.png Graphic file (type bmp)
-<../figures/pipeline_overview.png>
-
-Overfull \hbox (6.68001pt too wide) in paragraph at lines 25--25
-[]|\TU/lmtt/m/n/10.95 stop_word_removal| 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 25--26
-[]|\TU/TimesNewRoman(0)/m/n/10.95 remove scikit-learn
- []
-
-
-Underfull \hbox (badness 6961) in paragraph at lines 26--26
-[]|\TU/TimesNewRoman(0)/m/n/10.95 whitespace unigrams / whole-
- []
-
-
-Overfull \hbox (0.93126pt too wide) in paragraph at lines 28--28
-[]|\TU/lmtt/m/n/10.95 negation_marking| 
- []
-
-File: Images/bachkhoa_logo.png Graphic file (type bmp)
-<Images/bachkhoa_logo.png>
-[8]
-Underfull \hbox (badness 1661) in paragraph at lines 45--46
-[]|\TU/lmtt/m/n/10.95 TfidfVectorizer \TU/TimesNewRoman(0)/m/n/10.95 (sublinear
- TF, max 25k
- []
-
-File: Images/bachkhoa_logo.png Graphic file (type bmp)
-<Images/bachkhoa_logo.png>
-[9]) (./sections/06_results.tex
-File: ../figures/banking77/accuracy_f1_bars.png Graphic file (type bmp)
-<../figures/banking77/accuracy_f1_bars.png>
-File: Images/bachkhoa_logo.png Graphic file (type bmp)
-<Images/bachkhoa_logo.png>
- [10]
-File: ../figures/master_f1_heatmap.png Graphic file (type bmp)
-<../figures/master_f1_heatmap.png>
-
-Overfull \hbox (1.64651pt too wide) in paragraph at lines 49--56
+Overfull \hbox (83.44846pt too wide) in paragraph at lines 11--20
  [][] 
  []
 
+
+Overfull \hbox (2.62308pt too wide) in paragraph at lines 32--33
+[]\TU/TimesNewRoman(0)/m/n/12 Fit-set statistics from the regenerated full run 
+are summarised below (word counts use the pipeline
+ []
+
+(./generated/eda_summary.tex)
+File: ../figures/ag_news/eda.png Graphic file (type bmp)
+<../figures/ag_news/eda.png>
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
-[11]
-File: ../figures/banking77/preprocessing_ablation_heatmap.png Graphic file (typ
-e bmp)
-<../figures/banking77/preprocessing_ablation_heatmap.png>
-File: ../figures/banking77/brier_calibration_vs_f1.png Graphic file (type bmp)
-<../figures/banking77/brier_calibration_vs_f1.png>
+ [6]
+File: ../figures/rotten_tomatoes/eda.png Graphic file (type bmp)
+<../figures/rotten_tomatoes/eda.png>
+File: ../figures/banking77/eda.png Graphic file (type bmp)
+<../figures/banking77/eda.png>
+) (./sections/05_methodology.tex
+Overfull \hbox (7.14737pt too wide) in paragraph at lines 5--6
+\TU/TimesNewRoman(0)/m/n/12 A single module, \TU/lmtt/m/n/12 modules/assignment
+_pipeline.py\TU/TimesNewRoman(0)/m/n/12 , implements the full experiment. Legac
+y
+ []
+
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
- [12]
-File: ../figures/banking77/reliability_diagram.png Graphic file (type bmp)
-<../figures/banking77/reliability_diagram.png>
+[7]
+File: ../figures/pipeline_overview.png Graphic file (type bmp)
+<../figures/pipeline_overview.png>
+
+Underfull \hbox (badness 3872) in paragraph at lines 28--29
+[]|\TU/TimesNewRoman(0)/m/n/10.95 frozen BGE-small CLS embeddings (L2-
+ []
+
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
- [13]
-File: ../figures/banking77/bilstm_loss.png Graphic file (type bmp)
-<../figures/banking77/bilstm_loss.png>
-File: ../figures/banking77/confusion_best.png Graphic file (type bmp)
-<../figures/banking77/confusion_best.png>
+[8]) (./sections/06_results.tex (./generated/main_comparison.tex)
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
- [14]
-Overfull \hbox (130.4141pt too wide) in paragraph at lines 141--147
-\TU/TimesNewRoman(0)/m/n/12 Frequent confusions cluster in near-synonymous inte
-nt families: identity verification pairs (\TU/lmtt/m/n/12 unable_to_verify_iden
-tity
+ [9]
+(./generated/family_best.tex) (./generated/calibration.tex)
+File: Images/bachkhoa_logo.png Graphic file (type bmp)
+<Images/bachkhoa_logo.png>
+ [10]
+(./generated/negation.tex)) (./sections/07_discussion.tex
+Overfull \hbox (160.74763pt too wide) in paragraph at lines 29--1
+\TU/TimesNewRoman(0)/m/n/12 Per-family classification reports, confusion matric
+es, and example errors are stored under \TU/lmtt/m/n/12 outputs/full/reports/<d
+ataset>/\TU/TimesNewRoman(0)/m/n/12 .
  []
 
 
-Overfull \hbox (51.83978pt too wide) in paragraph at lines 141--147
-\TU/TimesNewRoman(0)/m/n/12 fer state distinctions (\TU/lmtt/m/n/12 pending_top
-_up \TU/TimesNewRoman(0)/m/n/12 vs. \TU/lmtt/m/n/12 top_up_failed\TU/TimesNewRo
-man(0)/m/n/12 ; \TU/lmtt/m/n/12 pending_transfer \TU/TimesNewRoman(0)/m/n/12 vs
-. \TU/lmtt/m/n/12 failed_transfer\TU/TimesNewRoman(0)/m/n/12 ).
- []
-
-) (./sections/07_discussion.tex
 Underfull \hbox (badness 10000) in paragraph at lines 13--13
-[]|\TU/TimesNewRoman(0)/m/n/10.95 TF-IDF + linear
+[]|\TU/TimesNewRoman(0)/m/n/10.95 TF-IDF + classical
  []
 
 
-Underfull \hbox (badness 6236) in paragraph at lines 13--14
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Sensitive to stop-word removal;
+Underfull \hbox (badness 5064) in paragraph at lines 13--14
+\TU/TimesNewRoman(0)/m/n/10.95 stop-word removal can hurt in-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 14--15
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Poor calibration (ECE 0.39);
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 15--15
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Word2Vec (mean-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 15--15
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Inexpensive dense baseline;
- []
-
-
-Underfull \hbox (badness 3895) in paragraph at lines 15--16
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Loses order; weak under linear
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 16--16
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Robust discrimination; Platt-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 17--17
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Frozen DistilBERT
- []
-
-
-Underfull \hbox (badness 7888) in paragraph at lines 17--18
-\TU/TimesNewRoman(0)/m/n/10.95 collapses if padding/tokenization
- []
-
-
-Underfull \hbox (badness 5431) in paragraph at lines 18--18
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Recovers order; excellent ECE;
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 18--19
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Trails TF-IDF; longer training;
+Underfull \hbox (badness 10000) in paragraph at lines 14--14
+[]|\TU/TimesNewRoman(0)/m/n/10.95 Contrastive sentence geometry;
  []
 
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
-[15]) (./sections/08_conclusions.tex
-Overfull \hbox (34.21193pt too wide) in paragraph at lines 5--6
-\TU/TimesNewRoman(0)/m/n/12 DistilBERT. Subword tokenization and masked padding
- are critical for DistilBERT (+14.4 / +18.3
- []
-
+[11]) (./sections/08_conclusions.tex) (./sections/09_work_distribution.tex
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
-[16]) (./sections/09_work_distribution.tex
+
+[12]
 Underfull \hbox (badness 10000) in paragraph at lines 14--14
 []|\TU/TimesNewRoman(0)/m/n/10.95 Dương Minh Nhật
- []
-
-
-Underfull \hbox (badness 1436) in paragraph at lines 15--15
-[]|\TU/TimesNewRoman(0)/m/n/10.95 Dataset loading; Boolean preprocessing includ
-ing
- []
-
-
-Underfull \hbox (badness 1221) in paragraph at lines 15--15
-\TU/TimesNewRoman(0)/m/n/10.95 negation marking; EDA; TF-IDF features; Naive
- []
-
-
-Underfull \hbox (badness 2285) in paragraph at lines 15--15
-\TU/TimesNewRoman(0)/m/n/10.95 processing ablation; error and negation analysis
-;
  []
 
 
@@ -1121,47 +1013,69 @@ Underfull \hbox (badness 10000) in paragraph at lines 18--18
 []|\TU/TimesNewRoman(0)/m/n/10.95 Nguyễn Trọng Nhân
  []
 
+
+Underfull \hbox (badness 1533) in paragraph at lines 19--19
+[]|\TU/lmtt/m/n/10.95 assignment_pipeline.py \TU/TimesNewRoman(0)/m/n/10.95 (th
+ree datasets, BGE,
+ []
+
 ) (./sections/10_reproducibility.tex
-Overfull \hbox (13.91975pt too wide) in paragraph at lines 13--14
-[]\TU/TimesNewRoman(0)/b/n/12 Colab front-end. \TU/lmtt/m/n/12 notebooks/text_c
-lassification_colab.ipynb \TU/TimesNewRoman(0)/m/n/12 runs without mount-
+Overfull \hbox (8.25581pt too wide) in paragraph at lines 9--9
+[]\TU/lmtt/m/n/12 modules/       assignment_pipeline.py (sole public path); _le
+gacy/ archived[] 
  []
 
 
-Overfull \hbox (6.2305pt too wide) in paragraph at lines 15--16
-[]\TU/TimesNewRoman(0)/b/n/12 PDF report. \TU/TimesNewRoman(0)/m/n/12 The prese
-nt LaTeX document (\TU/lmtt/m/n/12 reports/report/main.pdf\TU/TimesNewRoman(0)/
-m/n/12 ): EDA, pipeline
+Overfull \hbox (94.09056pt too wide) in paragraph at lines 14--15
+[]\TU/TimesNewRoman(0)/b/n/12 Modules. \TU/TimesNewRoman(0)/m/n/12 Public API: 
+\TU/lmtt/m/n/12 REGISTRY\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 run_datas
+et\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 make_report \TU/TimesNewRoman(0
+)/m/n/12 from \TU/lmtt/m/n/12 modules/assignment_pipeline.py\TU/TimesNewRoman(0
+)/m/n/12 . 
+ []
+
+
+Overfull \hbox (27.30101pt too wide) in paragraph at lines 16--17
+[]\TU/TimesNewRoman(0)/b/n/12 Feature artefacts. \TU/lmtt/m/n/12 outputs/full/f
+eatures/<dataset>/tfidf.h5\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 bge_*.n
+py\TU/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 y_*.npy\TU/TimesNewRoman(0)/m/n
+/12 . 
+ []
+
+
+Overfull \hbox (23.53766pt too wide) in paragraph at lines 17--18
+[]\TU/TimesNewRoman(0)/b/n/12 Command line. \TU/lmtt/m/n/12 python -m unittest 
+tests_pipeline -v\TU/TimesNewRoman(0)/m/n/12 ; \TU/lmtt/m/n/12 python main.py -
+-quick\TU/TimesNewRoman(0)/m/n/12 ;
  []
 
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
-[17]
-Overfull \hbox (3.19502pt too wide) in paragraph at lines 16--17
-[]\TU/TimesNewRoman(0)/b/n/12 Feature artefacts. \TU/lmtt/m/n/12 features/banki
-ng77/<embedding>_<tag>/ \TU/TimesNewRoman(0)/m/n/12 with \TU/lmtt/m/n/12 .npy\T
-U/TimesNewRoman(0)/m/n/12 , \TU/lmtt/m/n/12 .npz\TU/TimesNewRoman(0)/m/n/12 , \
-TU/lmtt/m/n/12 .h5\TU/TimesNewRoman(0)/m/n/12 ,
+[13]
+Overfull \hbox (50.48817pt too wide) in paragraph at lines 18--19
+[]\TU/TimesNewRoman(0)/b/n/12 Software. \TU/TimesNewRoman(0)/m/n/12 Python 3.x,
+ PyTorch, scikit-learn, transformers, datasets, h5py (see \TU/lmtt/m/n/12 requi
+rements.txt\TU/TimesNewRoman(0)/m/n/12 ). 
  []
 
 ) (./sections/11_references.tex)
 File: Images/bachkhoa_logo.png Graphic file (type bmp)
 <Images/bachkhoa_logo.png>
- [18] (./main.aux)
+ [14] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 8286A5260A7D98891B081614AB192352;6528.
+(rerunfilecheck)             Checksum: 3416CA2FC2D065ACA373E98D9DF43062;6005.
  ) 
 Here is how much of TeX's memory you used:
- 25517 strings out of 469709
- 528676 string characters out of 5466022
- 939404 words of memory out of 5000000
- 53688 multiletter control sequences out of 15000+600000
+ 25471 strings out of 469709
+ 525818 string characters out of 5466022
+ 940876 words of memory out of 5000000
+ 53633 multiletter control sequences out of 15000+600000
  634506 words of font info for 94 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 99i,24n,108p,918b,597s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,24n,108p,921b,576s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (19 pages).
+Output written on main.pdf (15 pages).
